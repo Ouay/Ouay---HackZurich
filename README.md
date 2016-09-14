@@ -1,1 +1,1 @@
-# Ouay---HackZurich
+# Ouay at HackZurich
