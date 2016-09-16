@@ -25,6 +25,8 @@ namespace Ouay_HackZurich
         public MainPage()
         {
             this.InitializeComponent();
+			
+			BlueMix.BlueMixCom.SendEntrance(DateTime.Now);
         }
     }
 }
