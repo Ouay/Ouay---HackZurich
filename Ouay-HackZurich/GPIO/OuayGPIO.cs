@@ -45,10 +45,7 @@ namespace Ouay_HackZurich.GPIO
 
 		protected void OnMotionDetected(EventArgs e)
 		{
-			if (MotionDetected != null)
-			{
-				MotionDetected(this, e);
-			}
+			MotionDetected?.Invoke(this, e);
 		}
 
 		private void PinButton_ValueChanged(GpioPin sender, GpioPinValueChangedEventArgs args)

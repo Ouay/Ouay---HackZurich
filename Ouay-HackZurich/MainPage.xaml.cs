@@ -37,12 +37,10 @@ namespace Ouay_HackZurich
 			SS = new Ouay_SpeechSynthesis(this.media);
 			SS.Talk("The speech Synthesiser has finished setup.");
 			SR = new Ouay_SpeechRecognition();
-			SR.setupSpeechRecognition();
 			SR.OnEnterResult += new SpeechRecognitionEventHandler(enterEvent);
 			SR.OnExitResult += new SpeechRecognitionEventHandler(exitEvent);
 			SS.Talk("Speech recognition has finished setting up.");
-			SR.StartSpeechRecognition();
-
+			
 			//gpio = new OuayGPIO(); // Beware of null exceptions
 			//Setup(); 
         }

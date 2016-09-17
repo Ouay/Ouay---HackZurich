@@ -49,11 +49,11 @@ namespace Ouay_HackZurich.Speech
 		/// </summary>
 		public Ouay_SpeechRecognition()
 		{
-			//setupSpeechRecognition();
+			setupSpeechRecognition();
 		}
 
 
-		public async void setupSpeechRecognition()
+		private async void setupSpeechRecognition()
 		{
 
 			var permissionGained = await Permissions.MicrophonePermissions.RequestMicrophonePermission();
@@ -62,7 +62,7 @@ namespace Ouay_HackZurich.Speech
 				return;
 
 			await InitializeRecognizer(SpeechRecognizer.SystemSpeechLanguage);
-			//await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
+			await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
 			Debug.WriteLine("Speech setup completed");
 		}
 
@@ -106,11 +106,6 @@ namespace Ouay_HackZurich.Speech
 			isListening = true;
 			Debug.WriteLine("Speech Recognizer intialization completed");
 
-		}
-
-		public async void StartSpeechRecognition()
-		{
-			await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
 		}
 
 		/// <summary>
