@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Ouay_HackZurich.Speech
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -38,11 +39,16 @@ namespace Ouay_HackZurich
         /*GPIO Controller */
         GpioController gpio;
 
+		/*Speech recogniser */
+		Ouay_SpeechRecognition SR;
+
         public event EventHandler MotionDetected;
 
         public MainPage()
         {
             this.InitializeComponent();
+			SR = new Ouay_SpeechRecognition();
+
             InitGPIO();
 
             pinButton.DebounceTimeout = TimeSpan.FromMilliseconds(50);

@@ -15,8 +15,7 @@ xmlns:sapi="http://schemas.microsoft.com/Speech/2002/06/SRGSExtensions">
       <item>
         <token sapi:pron="W E I" >ouay</token>
       </item>
-      <item>way<tag>out ="ouay";</tag>
-    </item>
+    <item uri="#other"></item>
     </one-of>
   </rule>
 

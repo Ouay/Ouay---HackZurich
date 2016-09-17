@@ -101,7 +101,7 @@
     </Compile>
     <Compile Include="Permissions\MicrophonePermissions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Speech\SpeechRecognition.cs" />
+    <Compile Include="Speech\Ouay_SpeechRecognition.cs" />
     <Compile Include="Verification\AudioRecorder.cs" />
     <Compile Include="Verification\BooleanToVisibilityConverter.cs" />
     <Compile Include="Verification\EnrollmentResult.cs" />
