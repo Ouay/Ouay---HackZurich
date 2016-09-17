@@ -9,21 +9,21 @@ namespace Ouay_HackZurich.Timer
 {
 	class TimerOutFor
 	{
-		public int Time { get; }
+		public static int Time { get; set; }
+		private static DispatcherTimer myTimer;
 
-
-		public TimerOutFor(int _time)
+		public static void setupTimer(int _time, EventHandler<object> mydelegate)
 		{
 			Time = _time;
-			DispatcherTimer myTimer = new DispatcherTimer();
+			myTimer = new DispatcherTimer();
 			myTimer.Interval = new TimeSpan(Time, 0, 0);
-			myTimer.Tick += MyTimer_Tick;
+			myTimer.Tick += mydelegate;
 			myTimer.Start();
 		}
 
-		private void MyTimer_Tick(object sender, object e)
+		public static void stopTimer()
 		{
-			//Do stuff there
+			myTimer.Stop();
 		}
 	}
 }
