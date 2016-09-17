@@ -115,7 +115,8 @@
     </Compile>
     <Compile Include="Permissions\MicrophonePermissions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Speech\SpeechRecognition.cs" />
+    <Compile Include="Speech\Ouay_SpeechSynthesis.cs" />
+    <Compile Include="Speech\Ouay_SpeechRecognition.cs" />
     <Compile Include="Speech\Synthese\SynthesisTalk.xaml.cs">
       <DependentUpon>SynthesisTalk.xaml</DependentUpon>
     </Compile>
@@ -136,7 +137,10 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="SRGS_basics.xml" />
+    <Content Include="Speech\SRGS\SRGS_City.xml" />
+    <Content Include="Speech\SRGS\SRGS_Dummy.xml" />
+    <Content Include="Speech\SRGS\SRGS_Main.xml" />
+    <Content Include="Speech\SRGS\SRGS_Test.xml" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -153,7 +157,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Speech\SRGS\" />
     <Folder Include="Verification\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

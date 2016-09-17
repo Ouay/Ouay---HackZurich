@@ -14,8 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System;
 using Windows.Media.SpeechSynthesis;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;	
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 

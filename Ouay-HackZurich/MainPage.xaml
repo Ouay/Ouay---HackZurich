@@ -8,5 +8,6 @@
     mc:Ignorable="d">
 
 	<Grid>
+		<MediaElement Name="media" Visibility="Collapsed"/>
 	</Grid>
 </Page>
