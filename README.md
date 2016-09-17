@@ -18,6 +18,7 @@ Through the BlueMix services we set up API calls with Node-RED to query and popu
 
 ### More code
 [Notebook](https://console.ng.bluemix.net/data/notebooks/fac9f6cf-45f3-4fa7-bc09-081ed7127c45/view?access_token=3c6b927fb8c763bca8edf94afde2cd5a2cf8194a709c6cbeb31fa10cf58e8809)
+
 Node-RED nodes
 ![Node-RED](https://cloud.githubusercontent.com/assets/3426517/18611394/e00f942a-7d37-11e6-87db-ef3f7e934334.png)
 
