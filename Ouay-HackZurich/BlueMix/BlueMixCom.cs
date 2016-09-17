@@ -33,21 +33,21 @@ namespace Ouay_HackZurich.BlueMix
 			switch(dayOfWeek)
 			{
 				case DayOfWeek.Monday:
-					return "lu";
+					return "1";
 				case DayOfWeek.Tuesday:
-					return "ma";
+					return "2";
 				case DayOfWeek.Wednesday:
-					return "me";
+					return "3";
 				case DayOfWeek.Thursday:
-					return "je";
+					return "4";
 				case DayOfWeek.Friday:
-					return "ve";
+					return "5";
 				case DayOfWeek.Saturday:
-					return "sa";
+					return "6";
 				case DayOfWeek.Sunday:
-					return "di";
+					return "7";
 				default:
-					return "lu";
+					return "1";
 			}
 		}
 
