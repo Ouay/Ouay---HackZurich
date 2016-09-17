@@ -10,15 +10,39 @@ using Windows.UI.Core;
 
 namespace Ouay_HackZurich.Speech
 {
+
+	// Make event handler for speech recognition events
+	public delegate void SpeechRecognitionEventHandler(object source, SREventArgs e);
+
+	// special event argument class
+	public class SREventArgs : EventArgs
+	{
+		private int EventInfo;
+		public SREventArgs(int value)
+		{
+			EventInfo = value;
+		}
+		public int GetInfo()
+		{
+			return EventInfo;
+		}
+	}
+
 	class Ouay_SpeechRecognition
 	{
+		/// <summary>
+		/// Speech Recogniser
+		/// </summary>
 		private SpeechRecognizer _speechRecognizer;
-		private SpeechRecognitionResult _speechResult;
+
 		/// <summary>
 		/// Boolean that represent the state of Listening of the System
 		/// </summary>
-		public bool isListening = false;
+		private bool isListening = false;
 
+		// One event for each kind of outcome
+		public event SpeechRecognitionEventHandler OnEnterResult;
+		public event SpeechRecognitionEventHandler OnExitResult;
 
 		/// <summary>
 		/// Constructor
@@ -84,11 +108,6 @@ namespace Ouay_HackZurich.Speech
 
 		}
 
-		public async void StartSpeechRecognition()
-		{
-			await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
-		}
-
 		/// <summary>
 		/// Restart continuous recognition session by itself when completed
 		/// </summary>
@@ -140,16 +159,11 @@ namespace Ouay_HackZurich.Speech
 				string hours = args.Result.SemanticInterpretation.Properties["hours"][0];
 				Debug.WriteLine("Time out of home: " + hours + " hours.");
 
-				// TODO: set timer 
-
-				// TODO: make answer
+				OnExitResult?.Invoke(this, new SREventArgs(Int32.Parse(hours)));
 			}
 			else if (actionCase == "enter")
 			{
-				// TODO: notify database about the arrival.
-				// TODO: Check if arrival time is normal.
-
-				// TODO: make answer	
+				OnEnterResult?.Invoke(this, new SREventArgs(0));	
 			}
 		}
 	}
