@@ -38,6 +38,8 @@ namespace Ouay_HackZurich
         /*GPIO Controller */
         GpioController gpio;
 
+        public event EventHandler MotionDetected;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -47,6 +49,21 @@ namespace Ouay_HackZurich
             pinPIR.DebounceTimeout = TimeSpan.FromMinutes(1);
             pinPIR.ValueChanged += PinPIR_ValueChanged;
             pinButton.ValueChanged += PinButton_ValueChanged;
+            MotionDetected += MainPage_MotionDetected;
+        }
+
+        private void MainPage_MotionDetected(object sender, EventArgs e)
+        {
+            // do some stuff with the pir sensor
+            Debug.WriteLine("event called and handeled");
+        }
+
+        protected void OnMotionDetected(EventArgs e)
+        {
+            if (MotionDetected != null)
+            {
+                MotionDetected(this, e);
+            }
         }
 
         private void PinButton_ValueChanged(GpioPin sender, GpioPinValueChangedEventArgs args)
@@ -74,15 +91,12 @@ namespace Ouay_HackZurich
         private void PinPIR_ValueChanged(GpioPin sender, GpioPinValueChangedEventArgs args)
         {
             pinPIRValue = pinPIR.Read();
-            if (pinPIRValue == GpioPinValue.High)
+            if(pinPIRValue == GpioPinValue.High)
             {
-                Debug.WriteLine("something is moving! grandpa isn't dead!");
-                pinRelay.Write(GpioPinValue.High); // power on the relay that powers the 220V plug.
+                Debug.WriteLine("Motion detected! grand'pa is alive!" + pinPIRValue);
+                OnMotionDetected(EventArgs.Empty);
             }
-            else
-            {
-                pinRelay.Write(GpioPinValue.Low); // switches off the 220V plug
-            }
+            
         }
 
         /*initialise GPIO pins*/
