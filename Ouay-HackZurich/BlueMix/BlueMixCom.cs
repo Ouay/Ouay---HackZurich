@@ -78,7 +78,7 @@ namespace Ouay_HackZurich.BlueMix
 			}
 		}
 
-		private async static void Alert()
+		public async static void Alert(string detail)
 		{
 			try
 			{
