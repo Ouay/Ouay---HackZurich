@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
+using BackgroundNotification;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Notifications;
@@ -38,7 +39,7 @@ namespace Parent_App
 
 		private async void SetupBackground()
 		{
-			var exampleTaskName = "OuayNotification";
+			var exampleTaskName = "OuayNotifications";
 
 			foreach (var cur in BackgroundTaskRegistration.AllTasks)
 				if (cur.Value.Name == exampleTaskName)
@@ -48,9 +49,16 @@ namespace Parent_App
 			await BackgroundExecutionManager.RequestAccessAsync();
 
 			// register a new task
-			BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder { Name = "NotifyMe", TaskEntryPoint = "BackgroundNotification.OuayNotifications" };
+			BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder { Name = exampleTaskName, TaskEntryPoint = "BackgroundNotification.OuayNotification" };
 			taskBuilder.SetTrigger(new SystemTrigger(SystemTriggerType.UserPresent, false));
-			BackgroundTaskRegistration myTask = taskBuilder.Register();
+			try
+			{
+				BackgroundTaskRegistration myTask = taskBuilder.Register();
+			}
+			catch (Exception e)
+			{
+				e.ToString();
+			}
 		}
 	}
 }
