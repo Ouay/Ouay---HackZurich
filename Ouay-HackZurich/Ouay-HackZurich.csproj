@@ -96,13 +96,13 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BlueMix\BlueMixCom.cs" />
+    <Compile Include="GPIO\OuayGPIO.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Permissions\MicrophonePermissions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sensors\PIR.cs" />
-    <Compile Include="Speech\SpeechRecognition.cs" />
+    <Compile Include="Speech\Ouay_SpeechRecognition.cs" />
     <Compile Include="Verification\AudioRecorder.cs" />
     <Compile Include="Verification\BooleanToVisibilityConverter.cs" />
     <Compile Include="Verification\EnrollmentResult.cs" />
@@ -132,6 +132,7 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Speech\SRGS\SRGS_Test.xml" />
     <Content Include="SRGS_basics.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -144,9 +145,7 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Speech\SRGS\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
