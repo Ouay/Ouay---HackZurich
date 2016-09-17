@@ -10,26 +10,50 @@ using Windows.UI.Core;
 
 namespace Ouay_HackZurich.Speech
 {
+
+	// Make event handler for speech recognition events
+	public delegate void SpeechRecognitionEventHandler(object source, SREventArgs e);
+
+	// special event argument class
+	public class SREventArgs : EventArgs
+	{
+		private int EventInfo;
+		public SREventArgs(int value)
+		{
+			EventInfo = value;
+		}
+		public int GetInfo()
+		{
+			return EventInfo;
+		}
+	}
+
 	class Ouay_SpeechRecognition
 	{
+		/// <summary>
+		/// Speech Recogniser
+		/// </summary>
 		private SpeechRecognizer _speechRecognizer;
-		private SpeechRecognitionResult _speechResult;
+
 		/// <summary>
 		/// Boolean that represent the state of Listening of the System
 		/// </summary>
-		public bool isListening = false;
+		private bool isListening = false;
 
+		// One event for each kind of outcome
+		public event SpeechRecognitionEventHandler OnEnterResult;
+		public event SpeechRecognitionEventHandler OnExitResult;
 
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		public Ouay_SpeechRecognition()
 		{
-			setupSpeechRecognition();
+			//setupSpeechRecognition();
 		}
 
 
-		private async void setupSpeechRecognition()
+		public async void setupSpeechRecognition()
 		{
 
 			var permissionGained = await Permissions.MicrophonePermissions.RequestMicrophonePermission();
@@ -38,7 +62,7 @@ namespace Ouay_HackZurich.Speech
 				return;
 
 			await InitializeRecognizer(SpeechRecognizer.SystemSpeechLanguage);
-			await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
+			//await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
 			Debug.WriteLine("Speech setup completed");
 		}
 
@@ -140,16 +164,11 @@ namespace Ouay_HackZurich.Speech
 				string hours = args.Result.SemanticInterpretation.Properties["hours"][0];
 				Debug.WriteLine("Time out of home: " + hours + " hours.");
 
-				// TODO: set timer 
-
-				// TODO: make answer
+				OnExitResult?.Invoke(this, new SREventArgs(Int32.Parse(hours)));
 			}
 			else if (actionCase == "enter")
 			{
-				// TODO: notify database about the arrival.
-				// TODO: Check if arrival time is normal.
-
-				// TODO: make answer	
+				OnEnterResult?.Invoke(this, new SREventArgs(0));	
 			}
 		}
 	}

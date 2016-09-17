@@ -11,7 +11,6 @@ namespace Ouay_HackZurich.Sensors
     class PIR
     {
         static GpioPin pinPIR;
-        GpioController gpio2;
         GpioPinValue pinPIRValue;
         public event EventHandler MotionDetected;
 
@@ -19,6 +18,7 @@ namespace Ouay_HackZurich.Sensors
         {
             pinPIR.DebounceTimeout = TimeSpan.FromMinutes(1);
             pinPIR.ValueChanged += PinPIR_ValueChanged;
+            MotionDetected += PIR_MotionDetected;
         }
         private void PinPIR_ValueChanged(GpioPin sender, GpioPinValueChangedEventArgs args)
         {
@@ -39,17 +39,23 @@ namespace Ouay_HackZurich.Sensors
             }
         }
 
+        private void PIR_MotionDetected(object sender, EventArgs e)
+        {
+            // do some stuff with the pir sensor
+            Debug.WriteLine("event called and handeled");
+        }
+
         /*initialise GPIO pins*/
         public static void InitGPIO_PIR()
         {
-            var gpio2 = GpioController.GetDefault();
-            if (gpio2 == null)
+            var gpio = GpioController.GetDefault();
+            if (gpio == null)
             {
                 pinPIR = null;
             }
 
             /* open the pins using the gpio controller */
-            pinPIR = gpio2.OpenPin(20);
+            pinPIR = gpio.OpenPin(20);
 
             /* pins as input */
             pinPIR.SetDriveMode(GpioPinDriveMode.Input);
