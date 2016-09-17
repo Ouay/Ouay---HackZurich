@@ -103,19 +103,6 @@
     <Compile Include="Permissions\MicrophonePermissions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Speech\Ouay_SpeechRecognition.cs" />
-    <Compile Include="Verification\AudioRecorder.cs" />
-    <Compile Include="Verification\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Verification\EnrollmentResult.cs" />
-    <Compile Include="Verification\Keys.cs" />
-    <Compile Include="Verification\MainPageViewModel.cs" />
-    <Compile Include="Verification\OxfordSpeakerIdRestClient.cs" />
-    <Compile Include="Verification\SimpleCommand.cs" />
-    <Compile Include="Verification\VerificationPhrase.cs" />
-    <Compile Include="Verification\VerificationPhraseList.cs" />
-    <Compile Include="Verification\VerificationProfile.cs" />
-    <Compile Include="Verification\VerificationProfileViewModel.cs" />
-    <Compile Include="Verification\VerificationResult.cs" />
-    <Compile Include="Verification\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

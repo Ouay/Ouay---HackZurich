@@ -3,90 +3,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Ouay_HackZurich"
-	xmlns:Verif="using:Ouay_HackZurich.Verification"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-	<Page.Resources>
-		<Verif:BooleanToVisibilityConverter
-			x:Name="boolConverter" />
-	</Page.Resources>
-	<Page.DataContext>
-		<Verif:MainPageViewModel />
-	</Page.DataContext>
-	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20">
-		<Grid.RowDefinitions>
-			<RowDefinition />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
-		<ProgressBar Grid.Row="2" Foreground="Azure" IsIndeterminate="True" Margin="4" Visibility="{Binding IsBusy,Converter={StaticResource boolConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
-
-		<StackPanel>
-			<ListView Header="Verification Profiles" ItemsSource="{Binding VerificationProfiles}" SelectionMode="Single" SelectedItem="{Binding SelectedVerificationProfile,Mode=TwoWay}">
-				<ListView.ItemContainerStyle>
-					<Style TargetType="ListViewItem">
-						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-					</Style>
-				</ListView.ItemContainerStyle>
-				<ListView.ItemTemplate>
-					<DataTemplate>
-						<Grid Margin="0,4,0,0">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition />
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="Auto"/>
-							</Grid.ColumnDefinitions>
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto" />
-								<RowDefinition Height="Auto" />
-							</Grid.RowDefinitions>
-							<TextBox Header="User Profile Id" IsReadOnly="True" Text="{Binding Profile.VerificationProfileId}" />
-							<TextBlock Grid.Row="1">
-								<Run Text="Enrolled count: "></Run>
-								<Run Text="{Binding Profile.EnrollmentsCoun}" />
-								<Run Text="Remaining count: "></Run>
-								<Run Text="{Binding Profile.RemainingEnrollmentsCount}" />
-								<Run Text="Status: "></Run>
-								<Run Text="{Binding Profile.EnrollmentStatus}" />
-							</TextBlock>
-							<Button
-							Margin="4,0,4,0"
-							Grid.Column="1"
-							VerticalAlignment="Bottom"
-							Content="Enrol"
-							Command="{Binding EnrolCommand}" />
-							<Button
-							Margin="4,0,4,0"
-							Grid.Column="2"
-							VerticalAlignment="Bottom"
-							Content="Verify"
-							Command="{Binding VerifyCommand}" />
-						</Grid>
-					</DataTemplate>
-				</ListView.ItemTemplate>
-			</ListView>
-		</StackPanel>
-		<StackPanel
-		  Grid.Row="2"
-		  Orientation="Horizontal"
-		  HorizontalAlignment="Right">
-			<TextBlock Margin="10">
-				<Run Text="Do this : " />
-			</TextBlock>
-			<Button
-				Margin="8"
-				Content="Refresh Profile List"
-				Command="{Binding GetVerificationProfilesCommand}" />
-			<Button
-				Margin="8"
-				Content="Add New Profile"
-				Command="{Binding AddNewProfileCommand}" />
-			<Button
-				Margin="8"
-				Content="Remove Profile"
-				Command="{Binding RemoveProfileCommand}" />
-		</StackPanel>
+	<Grid>
 	</Grid>
 </Page>

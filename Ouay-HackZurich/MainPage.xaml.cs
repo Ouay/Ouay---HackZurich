@@ -32,6 +32,13 @@ namespace Ouay_HackZurich
         {
             this.InitializeComponent();
 			SR = new Ouay_SpeechRecognition();
+			Setup();
         }
-    }
+
+		private async void Setup()
+		{
+			// dummy value that's out of range in order to fire an alert
+			//bool a = await BlueMix.BlueMixCom.SendEntrance(DateTime.Now);
+		}
+	}
 }
