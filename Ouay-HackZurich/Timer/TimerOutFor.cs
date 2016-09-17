@@ -23,7 +23,8 @@ namespace Ouay_HackZurich.Timer
 
 		public static void stopTimer()
 		{
-			myTimer.Stop();
+			if(myTimer!=null)
+				myTimer.Stop();	
 		}
 	}
 }

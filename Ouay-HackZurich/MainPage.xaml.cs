@@ -46,21 +46,21 @@ namespace Ouay_HackZurich
 			SR.OnExitResult += new SpeechRecognitionEventHandler(exitEvent);
 
 			//gpio = new OuayGPIO(); // Beware of null exceptions
-			//gpio.MotionDetected += motionDetected();
+			//gpio.MotionDetected += motionDetected;
         }
 
-		private EventHandler motionDetected()
+		private void motionDetected(object sender, EventArgs e)
 		{
-			//TODO: Implement function
+			//TODO: do something here 
 		}
 
-		private void exitEvent(object source, SREventArgs e)
+		private async void exitEvent(object source, SREventArgs e)
 		{
 			// Set timer once the person goes out.
 			TimerOutFor.setupTimer(e.GetInfo(), HandleDelayAlert );
 
 			// Say goodbye to person
-			SS.byeMessage();
+			await SS.byeMessage();
 		}
 
 		private void HandleDelayAlert(object sender, object e)
@@ -78,7 +78,7 @@ namespace Ouay_HackZurich
 			TimerOutFor.stopTimer();
 
 			// Welcome the person home
-			SS.WelcomeMessage();
+			await SS.WelcomeMessage();
 		}
 	}
 }
