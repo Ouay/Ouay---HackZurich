@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Storage;
@@ -11,6 +12,8 @@ namespace Ouay_HackZurich.Verification
 	class VerificationProfileViewModel : ViewModelBase
 	{
 		AudioRecorder audioRecorder;
+		StorageFile file;
+
 		public VerificationProfileViewModel(OxfordSpeakerIdRestClient oxfordRestClient)
 		{
 			this.oxfordRestClient = oxfordRestClient;
@@ -38,17 +41,20 @@ namespace Ouay_HackZurich.Verification
 
 		async Task EnrolCommandAsync(Func<IInputStream, Task> innerAction)
 		{
-			var phrase = await VerificationPhraseList.GetVerificationPhraseForProfileAsync(
-			  this.profile);
+			try
+			{
+				var phrase = await VerificationPhraseList.GetVerificationPhraseForProfileAsync(
+				  this.profile);
 
-			audioRecorder = new AudioRecorder();
+				audioRecorder = new AudioRecorder();
 
-			var file = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(
-			  Guid.NewGuid().ToString());
+				file = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(
+				  Guid.NewGuid().ToString());
 
-			await audioRecorder.StartRecordToFileAsync(file);
-
-			this.profile.TextDisplay = "Start to say My name is unknown to you";
+				await audioRecorder.StartRecordToFileAsync(file);
+			}
+			catch { }
+			this.profile.EnrollmentStatus = "Start to say My name is unknown to you";
 			DispatcherTimer time = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 5) };
 			time.Tick += async (sender, args) =>
 			{
@@ -64,7 +70,7 @@ namespace Ouay_HackZurich.Verification
 					}
 					catch (Exception ex)
 					{
-						await this.ShowErrorAsync(ex.Message);
+						this.ShowErrorAsync(ex.Message);
 					}
 				}
 			};
@@ -91,7 +97,7 @@ namespace Ouay_HackZurich.Verification
 				  }
 				  catch (Exception ex)
 				  {
-					  await this.ShowErrorAsync(ex.Message);
+					  this.ShowErrorAsync(ex.Message);
 				  }
 			  }
 			);
@@ -104,25 +110,27 @@ namespace Ouay_HackZurich.Verification
 			  {
 				  try
 				  {
+					  Debug.WriteLine("[OnVerifyCommand]");
 					  /*Result return "Accept or Reject*/
 					  var result = await this.oxfordRestClient.VerifyAsync(this.profile, stream);
-					  this.profile.TextDisplay = "The service heard you say [" + result.Phrase + "] with [" + result.Confidence + "] confidence, it says : [" + result.Result + "]";
+					  this.profile.EnrollmentStatus = "The service heard you say [" + result.Phrase + "] with [" + result.Confidence + "] confidence, it says : [" + result.Result + "]";
 					  if (result.Result == "Accept")
 						  BlueMix.BlueMixCom.SendEntrance(DateTime.Now);
 				  }
 				  catch (Exception ex)
 				  {
-					  await this.ShowErrorAsync(ex.Message);
+					  this.ShowErrorAsync("[OnVerifyCommand]" + ex.Message);
 					  this.profile.TextDisplay = "Error while listening";
 				  }
 			  }
 			);
 		}
 
-		async Task ShowErrorAsync(string error)
+		void ShowErrorAsync(string error)
 		{
-			var dialog = new MessageDialog(error, "Information");
-			await dialog.ShowAsync();
+			//var dialog = new MessageDialog(error, "Information");
+			//await dialog.ShowAsync();
+			this.profile.EnrollmentStatus = error;
 		}
 
 		public ICommand EnrolCommand { get { return (this.enrolCommand); } }
