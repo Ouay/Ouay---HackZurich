@@ -102,5 +102,17 @@ namespace Ouay_HackZurich.Verification
 		}
 		string enrollmentStatus;
 
+		public string TextDisplay
+		{
+			get
+			{
+				return (this.textDisplay);
+			}
+			set
+			{
+				base.SetProperty(ref this.textDisplay, value);
+			}
+		}
+		string textDisplay;
 	}
 }

@@ -4,11 +4,13 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
 
 namespace Ouay_HackZurich.Verification
 {
 	class VerificationProfileViewModel : ViewModelBase
 	{
+		AudioRecorder audioRecorder;
 		public VerificationProfileViewModel(OxfordSpeakerIdRestClient oxfordRestClient)
 		{
 			this.oxfordRestClient = oxfordRestClient;
@@ -34,33 +36,23 @@ namespace Ouay_HackZurich.Verification
 			this.verifyCommand.Enable(this.profile.EnrollmentsCount >= 3);
 		}
 
-		async Task OnVerifyOrEnrolCommandAsync(Func<IInputStream, MessageDialog, Task> innerAction)
+		async Task EnrolCommandAsync(Func<IInputStream, Task> innerAction)
 		{
 			var phrase = await VerificationPhraseList.GetVerificationPhraseForProfileAsync(
 			  this.profile);
 
-			// lazy, throwing up a dialog from here. Really!?!?!
-			var dialog = new MessageDialog(
-			  $"click the OK button to start the recorder",
-			  "recording");
+			audioRecorder = new AudioRecorder();
 
-			UICommand command = new UICommand("OK");
+			var file = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(
+			  Guid.NewGuid().ToString());
 
-			dialog.Commands.Add(command);
+			await audioRecorder.StartRecordToFileAsync(file);
 
-			if ((await dialog.ShowAsync()) == command)
+			this.profile.TextDisplay = "Start to say My name is unknown to you";
+			DispatcherTimer time = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 5) };
+			time.Tick += async (sender, args) =>
 			{
-				var audioRecorder = new AudioRecorder();
-
-				var file = await ApplicationData.Current.TemporaryFolder.CreateFileAsync(
-				  Guid.NewGuid().ToString());
-
-				await audioRecorder.StartRecordToFileAsync(file);
-
-				dialog.Content = $"Say the phrase \"{phrase.Phrase}\" then click OK when you've finished";
-
-				await dialog.ShowAsync();
-
+				time.Stop();
 				await audioRecorder.StopRecordAsync();
 
 				// Ok, we now have a file full of audio to send to the service.
@@ -68,20 +60,21 @@ namespace Ouay_HackZurich.Verification
 				{
 					try
 					{
-						await innerAction(stream, dialog);
+						await innerAction(stream);
 					}
 					catch (Exception ex)
 					{
 						await this.ShowErrorAsync(ex.Message);
 					}
 				}
-			}
+			};
+			time.Start();
 		}
 
 		async void OnEnrolCommand()
 		{
-			await this.OnVerifyOrEnrolCommandAsync(
-			  async (stream, dialog) =>
+			await this.EnrolCommandAsync(
+			  async (stream) =>
 			  {
 				  try
 				  {
@@ -94,9 +87,7 @@ namespace Ouay_HackZurich.Verification
 					  this.EnableEnrolCommand();
 					  this.EnableVerifyCommand();
 
-					  dialog.Title = "Recognised";
-					  dialog.Content = $"The service heard you say [{result.Phrase}]";
-					  await dialog.ShowAsync();
+					  this.profile.TextDisplay = "The service heard you say " + result.Phrase;
 				  }
 				  catch (Exception ex)
 				  {
@@ -108,20 +99,20 @@ namespace Ouay_HackZurich.Verification
 
 		async void OnVerifyCommand()
 		{
-			await this.OnVerifyOrEnrolCommandAsync(
-			  async (stream, dialog) =>
+			await this.EnrolCommandAsync(
+			  async (stream) =>
 			  {
 				  try
 				  {
+					  /*Result return "Accept or Reject*/
 					  var result = await this.oxfordRestClient.VerifyAsync(this.profile, stream);
-
-					  dialog.Title = $"Speech {result.Result}";
-					  dialog.Content = $"The service heard you say [{result.Phrase}] with {result.Confidence} confidence";
-					  await dialog.ShowAsync();
+					  await this.ShowErrorAsync("The service heard you say [" + result.Phrase + "] with [" + result.Confidence + "] confidence, it says : [" + result.Result + "]");
+					  this.profile.TextDisplay = "The service heard you say " + result.Phrase + " with " + result.Confidence + " confidence";
 				  }
 				  catch (Exception ex)
 				  {
 					  await this.ShowErrorAsync(ex.Message);
+					  this.profile.TextDisplay = "Error while listening";
 				  }
 			  }
 			);
@@ -129,13 +120,15 @@ namespace Ouay_HackZurich.Verification
 
 		async Task ShowErrorAsync(string error)
 		{
-			var dialog = new MessageDialog(error, "failed");
+			var dialog = new MessageDialog(error, "Information");
 			await dialog.ShowAsync();
 		}
 
 		public ICommand EnrolCommand { get { return (this.enrolCommand); } }
 
 		public ICommand VerifyCommand { get { return (this.verifyCommand); } }
+
+		public object Thread { get; private set; }
 
 		OxfordSpeakerIdRestClient oxfordRestClient;
 		VerificationProfile profile;
