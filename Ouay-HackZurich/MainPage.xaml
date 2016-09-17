@@ -72,6 +72,10 @@
 		  Grid.Row="2"
 		  Orientation="Horizontal"
 		  HorizontalAlignment="Right">
+			<TextBlock Margin="10">
+				<Run Text="Do this : " />
+				<Run Text="{Binding Profile.Text}" />
+			</TextBlock>
 			<Button
 				Margin="8"
 				Content="Refresh Profile List"
@@ -84,10 +88,6 @@
 				Margin="8"
 				Content="Remove Profile"
 				Command="{Binding RemoveProfileCommand}" />
-			<TextBlock Margin="10">
-				<Run Text="Do this : " />
-				<Run Text="{Binding Profile.Text}" />
-			</TextBlock>
 		</StackPanel>
 	</Grid>
 </Page>
