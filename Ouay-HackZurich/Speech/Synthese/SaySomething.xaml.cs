@@ -12,23 +12,22 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using System;
 using Windows.Media.SpeechSynthesis;
 using Windows.UI.Xaml;	
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Ouay_HackZurich.Speech.Synthesis
+namespace Ouay_HackZurich.Speech.Synthese
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SynthesisTalk : Page
+    public sealed partial class SaySomething : Page
     {
         SpeechSynthesizer speechSynthesizer;
-
-        public SynthesisTalk()
+        public SaySomething()
         {
+            this.InitializeComponent();
             this.InitializeComponent();
             speechSynthesizer = new SpeechSynthesizer();
 
@@ -45,5 +44,6 @@ namespace Ouay_HackZurich.Speech.Synthesis
             media.SetSource(stream, stream.ContentType);
             media.Play();
         }
+    
     }
 }
