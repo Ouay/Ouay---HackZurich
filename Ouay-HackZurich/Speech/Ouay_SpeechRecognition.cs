@@ -40,8 +40,10 @@ namespace Ouay_HackZurich.Speech
 		/// </summary>
 		private bool isListening = false;
 
-		// One event for each kind of outcome
-		public event SpeechRecognitionEventHandler OnEnterResult;
+        public SpeechRecognitionEventHandler onenterresult { get; internal set; }
+
+        // One event for each kind of outcome
+        public event SpeechRecognitionEventHandler OnEnterResult;
 		public event SpeechRecognitionEventHandler OnExitResult;
 
 		/// <summary>
