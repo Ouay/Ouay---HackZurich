@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -76,15 +77,34 @@ namespace Parent_App
                 }
                 // Vérifiez que la fenêtre actuelle est active
                 Window.Current.Activate();
+
+				//Code for background tasks
+				Window.Current.Activated += Current_Activated;
             }
         }
 
-        /// <summary>
-        /// Appelé lorsque la navigation vers une page donnée échoue
-        /// </summary>
-        /// <param name="sender">Frame à l'origine de l'échec de navigation.</param>
-        /// <param name="e">Détails relatifs à l'échec de navigation</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+		private void Current_Activated(object sender, Windows.UI.Core.WindowActivatedEventArgs e)
+		{
+			switch (e.WindowActivationState)
+			{
+				case CoreWindowActivationState.CodeActivated:
+				case CoreWindowActivationState.PointerActivated:
+					Windows.Storage.ApplicationData.Current.LocalSettings.Values["IsWindowInFocus"] = true;
+					break;
+
+				case CoreWindowActivationState.Deactivated:
+					Windows.Storage.ApplicationData.Current.LocalSettings.Values["IsWindowInFocus"] = false;
+					break;
+			}
+
+		}
+
+		/// <summary>
+		/// Appelé lorsque la navigation vers une page donnée échoue
+		/// </summary>
+		/// <param name="sender">Frame à l'origine de l'échec de navigation.</param>
+		/// <param name="e">Détails relatifs à l'échec de navigation</param>
+		void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
