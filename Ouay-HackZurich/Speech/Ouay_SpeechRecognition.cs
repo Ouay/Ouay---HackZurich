@@ -91,7 +91,7 @@ namespace Ouay_HackZurich.Speech
 			if (_speechRecognizer.State == SpeechRecognizerState.Idle)
 			{
 				await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
-				Debug.WriteLine("Starting speech recognition.")
+				Debug.WriteLine("Starting speech recognition.");
 			}
 		}
 
