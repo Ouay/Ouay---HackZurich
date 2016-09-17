@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Ouay_HackZurich.Speech;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -23,9 +24,14 @@ namespace Ouay_HackZurich
     /// </summary>
     public sealed partial class MainPage : Page
     {
+
+		/* speech recognizer specific to Ouay */
+		Ouay_SpeechRecognition SR;
+
         public MainPage()
         {
             this.InitializeComponent();
+			SR = new Ouay_SpeechRecognition();
         }
     }
 }

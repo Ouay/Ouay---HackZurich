@@ -68,8 +68,8 @@ namespace Ouay_HackZurich.Speech
 
 			_speechRecognizer = new SpeechRecognizer(systemSpeechLanguage);
 
-			var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///SRGS_basic.xml"));
-			var listConstraint = new SpeechRecognitionGrammarFileConstraint(storageFile, "Animals");
+			var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Speech/SRGS/SRGS_Test.xml"));
+			var listConstraint = new SpeechRecognitionGrammarFileConstraint(storageFile, "ExitEnter");
 
 
 			_speechRecognizer.Constraints.Add(listConstraint);
@@ -106,6 +106,10 @@ namespace Ouay_HackZurich.Speech
 			if (args.Result.Confidence == SpeechRecognitionConfidence.Medium || args.Result.Confidence == SpeechRecognitionConfidence.High)
 			{
 				Debug.WriteLine("Heard: " + args.Result.Text);
+			}
+			else
+			{
+				Debug.WriteLine("I didn't get that. I heard: "+ args.Result.Text);
 			}
 		}
 

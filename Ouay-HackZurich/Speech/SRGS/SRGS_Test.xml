@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<grammar xml:lang="en-US" root="ouay"
+tag-format="semantics/1.0" sapi:alphabet="x-microsoft-ups"
+version="1.0" xmlns="http://www.w3.org/2001/06/grammar"
+xmlns:sapi="http://schemas.microsoft.com/Speech/2002/06/SRGSExtensions">
+
+  <!--This grammar should be able to recognize the following (examples) :
+      Ouay I will come back at 3 p.m
+      Ouay We come back at 12 a.m
+      Ouay I will come back in 2 hours -->
+
+  <rule id="ouay">
+    <one-of>
+      <item>
+        <token sapi:pron="W E I" >ouay</token>
+      </item>
+    </one-of>
+  </rule> 
+
+  <rule id="other">
+    <item>
+     test
+    </item>
+  </rule>
+  
+  
+</grammar>
