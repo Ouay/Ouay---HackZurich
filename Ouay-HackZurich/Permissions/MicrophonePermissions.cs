@@ -37,7 +37,7 @@ namespace Ouay_HackZurich.Permissions
 				// On SKUs without media player (eg, the N SKUs), we may not have access to the Windows.Media.Capture
 				// namespace unless the media player pack is installed. Handle this gracefully.
 				var messageDialog = new Windows.UI.Popups.MessageDialog("Media player components are unavailable.");
-				await messageDialog.ShowAsync();
+				//await messageDialog.ShowAsync();
 				return false;
 			}
 			catch (UnauthorizedAccessException)
@@ -55,7 +55,7 @@ namespace Ouay_HackZurich.Permissions
 				if (exception.HResult == NoCaptureDevicesHResult)
 				{
 					var messageDialog = new Windows.UI.Popups.MessageDialog("No Audio Capture devices are present on this system.");
-					await messageDialog.ShowAsync();
+					//await messageDialog.ShowAsync();
 					return false;
 				}
 				else
