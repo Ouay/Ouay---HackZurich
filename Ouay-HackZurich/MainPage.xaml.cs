@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ouay_HackZurich.Sensors;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -27,43 +28,23 @@ namespace Ouay_HackZurich
         int stateButton = 0;
 
         /* GPIO pins */
-        GpioPin pinPIR;
         GpioPin pinButton;
         GpioPin pinLED;
         GpioPin pinRelay;
 
-        GpioPinValue pinPIRValue;
         GpioPinValue pinButtonValue;
 
         /*GPIO Controller */
         GpioController gpio;
 
-        public event EventHandler MotionDetected;
-
         public MainPage()
         {
             this.InitializeComponent();
             InitGPIO();
+            PIR.InitGPIO_PIR();
 
             pinButton.DebounceTimeout = TimeSpan.FromMilliseconds(50);
-            pinPIR.DebounceTimeout = TimeSpan.FromMinutes(1);
-            pinPIR.ValueChanged += PinPIR_ValueChanged;
             pinButton.ValueChanged += PinButton_ValueChanged;
-            MotionDetected += MainPage_MotionDetected;
-        }
-
-        private void MainPage_MotionDetected(object sender, EventArgs e)
-        {
-            // do some stuff with the pir sensor
-            Debug.WriteLine("event called and handeled");
-        }
-
-        protected void OnMotionDetected(EventArgs e)
-        {
-            if (MotionDetected != null)
-            {
-                MotionDetected(this, e);
-            }
         }
 
         private void PinButton_ValueChanged(GpioPin sender, GpioPinValueChangedEventArgs args)
@@ -88,31 +69,20 @@ namespace Ouay_HackZurich
             }
         }
 
-        private void PinPIR_ValueChanged(GpioPin sender, GpioPinValueChangedEventArgs args)
-        {
-            pinPIRValue = pinPIR.Read();
-            if(pinPIRValue == GpioPinValue.High)
-            {
-                Debug.WriteLine("Motion detected! grand'pa is alive!" + pinPIRValue);
-                OnMotionDetected(EventArgs.Empty);
-            }
-            
-        }
-
         /*initialise GPIO pins*/
-        public void InitGPIO()
+        private void InitGPIO()
         {
             var gpio = GpioController.GetDefault();
             if (gpio == null)
             {
-                pinPIR = null;
+                //pinPIR = null;
                 pinButton = null;
                 pinLED = null;
                 pinRelay = null;
             }
 
             /* open the pins using the gpio controller */
-            pinPIR = gpio.OpenPin(20);
+            //pinPIR = gpio.OpenPin(20);
             pinButton = gpio.OpenPin(16);
             pinLED = gpio.OpenPin(5);
             pinRelay = gpio.OpenPin(21);
@@ -125,7 +95,7 @@ namespace Ouay_HackZurich
             pinRelay.SetDriveMode(GpioPinDriveMode.Output);
 
             /* pins as input */
-            pinPIR.SetDriveMode(GpioPinDriveMode.Input);
+            //pinPIR.SetDriveMode(GpioPinDriveMode.Input);
             pinButton.SetDriveMode(GpioPinDriveMode.Input);
 
         }
