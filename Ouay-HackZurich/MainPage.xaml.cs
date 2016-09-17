@@ -51,30 +51,34 @@ namespace Ouay_HackZurich
 
 		private EventHandler motionDetected()
 		{
-			throw new NotImplementedException();
+			//TODO: Implement function
 		}
 
 		private void exitEvent(object source, SREventArgs e)
 		{
-			// TODO: set timer 
+			// Set timer once the person goes out.
 			TimerOutFor.setupTimer(e.GetInfo(), HandleDelayAlert );
 
-			// TODO: make answer
-
+			// Say goodbye to person
+			SS.byeMessage();
 		}
 
 		private void HandleDelayAlert(object sender, object e)
 		{
+			// Alert about a late arrival at home
 			BlueMixCom.Alert("Late Alert");
 		}
 
 		private async void enterEvent(object source, SREventArgs e)
 		{
-
-			// TODO: notify database about the arrival.
+			// Send entrance time to database to know if everything is ok
 			await BlueMixCom.SendEntrance(DateTime.Now);
 
-			// TODO: make answer
+			// Stop timer tracking time out of house
+			TimerOutFor.stopTimer();
+
+			// Welcome the person home
+			SS.WelcomeMessage();
 		}
 	}
 }
