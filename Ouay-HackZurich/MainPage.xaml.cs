@@ -37,13 +37,19 @@ namespace Ouay_HackZurich
 			SS = new Ouay_SpeechSynthesis(this.media);
 			SS.Talk("The speech Synthesiser has finished setup.");
 			SR = new Ouay_SpeechRecognition();
+			SR.setupSpeechRecognition();
 			SR.OnEnterResult += new SpeechRecognitionEventHandler(enterEvent);
 			SR.OnExitResult += new SpeechRecognitionEventHandler(exitEvent);
 			SS.Talk("Speech recognition has finished setting up.");
-			
+
 			//gpio = new OuayGPIO(); // Beware of null exceptions
-			//Setup(); 
+			//gpio.MotionDetected += motionDetected();
         }
+
+		private EventHandler motionDetected()
+		{
+			throw new NotImplementedException();
+		}
 
 		private void exitEvent(object source, SREventArgs e)
 		{
@@ -64,11 +70,5 @@ namespace Ouay_HackZurich
 
 			throw new NotImplementedException();
 		}
-
-		//private async void Setup()
-		//{
-		//	// dummy value that's out of range in order to fire an alert
-		//	//bool a = await BlueMix.BlueMixCom.SendEntrance(DateTime.Now);
-		//}
 	}
 }

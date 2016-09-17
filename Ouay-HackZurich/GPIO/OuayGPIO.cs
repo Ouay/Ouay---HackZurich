@@ -13,10 +13,10 @@ namespace Ouay_HackZurich.GPIO
 		int stateButton = 0;
 
 		/* GPIO pins */
-		GpioPin pinPIR;
-		GpioPin pinButton;
-		GpioPin pinLED;
-		GpioPin pinRelay;
+		private GpioPin pinPIR;
+		private GpioPin pinButton;
+		private GpioPin pinLED;
+		private GpioPin pinRelay;
 
 		GpioPinValue pinPIRValue;
 		GpioPinValue pinButtonValue;
@@ -34,13 +34,7 @@ namespace Ouay_HackZurich.GPIO
 			pinPIR.DebounceTimeout = TimeSpan.FromMinutes(1);
 			pinPIR.ValueChanged += PinPIR_ValueChanged;
 			pinButton.ValueChanged += PinButton_ValueChanged;
-			MotionDetected += MainPage_MotionDetected;
-		}
-
-		private void MainPage_MotionDetected(object sender, EventArgs e)
-		{
-			// do some stuff with the pir sensor
-			Debug.WriteLine("event called and handeled");
+			
 		}
 
 		protected void OnMotionDetected(EventArgs e)
