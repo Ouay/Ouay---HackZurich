@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
 
 namespace Ouay_HackZurich.Verification
 {
@@ -47,27 +48,27 @@ namespace Ouay_HackZurich.Verification
 
 			await audioRecorder.StartRecordToFileAsync(file);
 
-			this.profile.Text = "Start to say My name is unknown to you";
-			await WaitForListening();
-			await audioRecorder.StopRecordAsync();
-
-			// Ok, we now have a file full of audio to send to the service.
-			using (var stream = await file.OpenReadAsync())
+			this.profile.TextDisplay = "Start to say My name is unknown to you";
+			DispatcherTimer time = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 5) };
+			time.Tick += async (sender, args) =>
 			{
-				try
-				{
-					await innerAction(stream);
-				}
-				catch (Exception ex)
-				{
-					await this.ShowErrorAsync(ex.Message);
-				}
-			}
-		}
+				time.Stop();
+				await audioRecorder.StopRecordAsync();
 
-		private async Task WaitForListening()
-		{
-			await Task.Delay(5000);
+				// Ok, we now have a file full of audio to send to the service.
+				using (var stream = await file.OpenReadAsync())
+				{
+					try
+					{
+						await innerAction(stream);
+					}
+					catch (Exception ex)
+					{
+						await this.ShowErrorAsync(ex.Message);
+					}
+				}
+			};
+			time.Start();
 		}
 
 		async void OnEnrolCommand()
@@ -86,7 +87,7 @@ namespace Ouay_HackZurich.Verification
 					  this.EnableEnrolCommand();
 					  this.EnableVerifyCommand();
 
-					  this.profile.Text = "The service heard you say " + result.Phrase; 
+					  this.profile.TextDisplay = "The service heard you say " + result.Phrase;
 				  }
 				  catch (Exception ex)
 				  {
@@ -103,14 +104,16 @@ namespace Ouay_HackZurich.Verification
 			  {
 				  try
 				  {
+					  /*Result return "Accept or Reject*/
 					  var result = await this.oxfordRestClient.VerifyAsync(this.profile, stream);
-
-					  this.profile.Text = "The service heard you say " + result.Phrase + " with " + result.Confidence + " confidence";
+					  this.profile.TextDisplay = "The service heard you say [" + result.Phrase + "] with [" + result.Confidence + "] confidence, it says : [" + result.Result + "]";
+					  if (result.Result == "Accept")
+						  BlueMix.BlueMixCom.SendEntrance(DateTime.Now);
 				  }
 				  catch (Exception ex)
 				  {
 					  await this.ShowErrorAsync(ex.Message);
-					  this.profile.Text = "Error while listening";
+					  this.profile.TextDisplay = "Error while listening";
 				  }
 			  }
 			);
@@ -118,7 +121,7 @@ namespace Ouay_HackZurich.Verification
 
 		async Task ShowErrorAsync(string error)
 		{
-			var dialog = new MessageDialog(error, "failed");
+			var dialog = new MessageDialog(error, "Information");
 			await dialog.ShowAsync();
 		}
 
