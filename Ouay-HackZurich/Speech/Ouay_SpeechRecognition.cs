@@ -39,6 +39,7 @@ namespace Ouay_HackZurich.Speech
 
 			await InitializeRecognizer(SpeechRecognizer.SystemSpeechLanguage);
 			await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
+			Debug.WriteLine("Speech setup completed");
 		}
 
 
@@ -69,16 +70,23 @@ namespace Ouay_HackZurich.Speech
 			_speechRecognizer = new SpeechRecognizer(systemSpeechLanguage);
 
 			var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Speech/SRGS/SRGS_Test.xml"));
-			var listConstraint = new SpeechRecognitionGrammarFileConstraint(storageFile, "ExitEnter");
+			var fileConstraint = new SpeechRecognitionGrammarFileConstraint(storageFile, "ExitEnter");
 
 
-			_speechRecognizer.Constraints.Add(listConstraint);
+			_speechRecognizer.Constraints.Add(fileConstraint);
 			await _speechRecognizer.CompileConstraintsAsync();
+
 			_speechRecognizer.ContinuousRecognitionSession.Completed += ContinuousRecognitionSession_Completed;
 			_speechRecognizer.ContinuousRecognitionSession.ResultGenerated += ContinuousRecognitionSession_ResultGenerated;
 
 			isListening = true;
+			Debug.WriteLine("Speech Recognizer intialization completed");
 
+		}
+
+		public async void StartSpeechRecognition()
+		{
+			await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
 		}
 
 		/// <summary>
@@ -88,6 +96,7 @@ namespace Ouay_HackZurich.Speech
 		/// <param name="args"></param>
 		private async void ContinuousRecognitionSession_Completed(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionCompletedEventArgs args)
 		{
+			Debug.WriteLine("Speech recognition completed");
 			if (_speechRecognizer.State == SpeechRecognizerState.Idle)
 			{
 				await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
@@ -103,6 +112,7 @@ namespace Ouay_HackZurich.Speech
 
 		private void ContinuousRecognitionSession_ResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
 		{
+			Debug.WriteLine("Speech recognition result generated.");
 			if (args.Result.Confidence == SpeechRecognitionConfidence.Medium || args.Result.Confidence == SpeechRecognitionConfidence.High)
 			{
 				Debug.WriteLine("Heard: " + args.Result.Text);
