@@ -49,9 +49,10 @@ namespace Ouay_HackZurich
 
 		private void exitEvent(object source, SREventArgs e)
 		{
-			// TODO: set timer 
+            // TODO: set timer 
 
-			// TODO: make answer
+            // make answer
+            SS.byeMessage();
 
 			throw new NotImplementedException();
 		}
@@ -59,12 +60,14 @@ namespace Ouay_HackZurich
 		private void enterEvent(object source, SREventArgs e)
 		{
 
-			// TODO: notify database about the arrival.
-			// TODO: Check if arrival time is normal.
+            // TODO: notify database about the arrival.
+            // TODO: Check if arrival time is normal.
 
-			// TODO: make answer
+            // make answer
+            SS.WelcomeMessage();
 
-			throw new NotImplementedException();
+
+            throw new NotImplementedException();
 		}
 
 		//private async void Setup()

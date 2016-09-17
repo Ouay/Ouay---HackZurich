@@ -14,17 +14,17 @@ namespace Ouay_HackZurich.Speech
 		private MediaElement ME;
 
 		public Ouay_SpeechSynthesis(MediaElement ME)
-			{
+		{
 			speechSynthesizer = new SpeechSynthesizer();
 			this.ME = ME;
 		}
 
 		public async void Talk(string message)
-			{
-				var stream = await speechSynthesizer.SynthesizeTextToStreamAsync(message);
-				ME.SetSource(stream, stream.ContentType);
-				ME.Play();
-			}
+		{
+			var stream = await speechSynthesizer.SynthesizeTextToStreamAsync(message);
+			ME.SetSource(stream, stream.ContentType);
+			ME.Play();
+		}
 
         string[] answers = { "Welcome back", "Hey, you", "good evening", "hello" };
         string[] byebye = { "Have a nice day", "See you later", "I will miss you", "bye bye" };
@@ -41,6 +41,6 @@ namespace Ouay_HackZurich.Speech
             Talk(byebye[variable2]);
             if (variable2 < 3) { variable2++; }
             else { variable2 = 0; }
-            }
+        }
 	}
 }
