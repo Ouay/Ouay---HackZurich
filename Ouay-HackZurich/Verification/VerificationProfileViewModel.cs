@@ -106,8 +106,9 @@ namespace Ouay_HackZurich.Verification
 				  {
 					  /*Result return "Accept or Reject*/
 					  var result = await this.oxfordRestClient.VerifyAsync(this.profile, stream);
-					  await this.ShowErrorAsync("The service heard you say [" + result.Phrase + "] with [" + result.Confidence + "] confidence, it says : [" + result.Result + "]");
-					  this.profile.TextDisplay = "The service heard you say " + result.Phrase + " with " + result.Confidence + " confidence";
+					  this.profile.TextDisplay = "The service heard you say [" + result.Phrase + "] with [" + result.Confidence + "] confidence, it says : [" + result.Result + "]";
+					  if (result.Result == "Accept")
+						  BlueMix.BlueMixCom.SendEntrance(DateTime.Now);
 				  }
 				  catch (Exception ex)
 				  {

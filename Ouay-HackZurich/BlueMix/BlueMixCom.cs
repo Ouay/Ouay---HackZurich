@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Ouay_HackZurich.BlueMix
 {
 	public class BlueMixCom
 	{
-		protected static string UrlMain = @"https://www.ouay.mybluemix.net/data?";
+		protected static string UrlMain = @"https://ouay.mybluemix.net/data?";
 		protected static string UrlTime = @"time=";
 		protected static string UrlDay = @"&day=";
 		protected static string UrlResponse = @"https://www.ouay.mybluemix.net/poll";
@@ -21,11 +22,19 @@ namespace Ouay_HackZurich.BlueMix
 		/// <param name="now">The time of the entrance</param>
 		public async static void SendEntrance(DateTime now)
 		{
-			var httpClient = new HttpClient();
-			string url = UrlMain;
-			url += UrlTime + now.Hour.ToString() + "-" + now.Minute.ToString();
-			url += UrlDay + ConvertDay(now.DayOfWeek);
-			await httpClient.GetStringAsync(new Uri(url));
+			try
+			{
+				var httpClient = new HttpClient();
+				string url = UrlMain;
+				url += UrlTime + now.Hour.ToString() + "-" + now.Minute.ToString();
+				url += UrlDay + ConvertDay(now.DayOfWeek);
+				await httpClient.GetStringAsync(new Uri(url));
+				Debug.WriteLine("Set new entrance to server");
+			}
+			catch
+			{
+				Debug.WriteLine("Cannot give entrance message to server");
+			}
 		}
 
 		private static string ConvertDay(DayOfWeek dayOfWeek)
