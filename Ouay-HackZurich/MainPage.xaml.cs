@@ -26,12 +26,17 @@ namespace Ouay_HackZurich
     {
 
 		/* speech recognizer specific to Ouay */
-		Ouay_SpeechRecognition SR;
+		//Ouay_SpeechRecognition SR;
 
         public MainPage()
         {
             this.InitializeComponent();
-			SR = new Ouay_SpeechRecognition();
+			//SR = new Ouay_SpeechRecognition();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Speech.Synthese.SaySomething));
         }
     }
 }

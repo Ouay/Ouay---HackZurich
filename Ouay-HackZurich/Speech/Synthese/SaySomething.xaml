@@ -1,8 +1,8 @@
 ﻿<Page
-    x:Class="Ouay_HackZurich.Speech.Synthesis.SynthesisTalk"
+    x:Class="Ouay_HackZurich.Speech.Synthese.SaySomething"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Ouay_HackZurich.Speech.Synthesis"
+    xmlns:local="using:Ouay_HackZurich.Speech.Synthese"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -15,7 +15,7 @@
                 Content="Button" 
 
                 Width="Auto"
-                Click="Speak_Click" Margin="180,321,0,287"/>
+                Click="Speak_Click" Margin="116,524,0,84"/>
         <TextBox 
                  Grid.Column="0"
                  x:Name="textToSpeak" 
