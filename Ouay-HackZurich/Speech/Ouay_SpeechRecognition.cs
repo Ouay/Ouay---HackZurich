@@ -39,6 +39,7 @@ namespace Ouay_HackZurich.Speech
 
 			await InitializeRecognizer(SpeechRecognizer.SystemSpeechLanguage);
 			await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
+			Debug.WriteLine("Speech setup completed");
 		}
 
 
@@ -68,17 +69,24 @@ namespace Ouay_HackZurich.Speech
 
 			_speechRecognizer = new SpeechRecognizer(systemSpeechLanguage);
 
-			var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Speech/SRGS/SRGS_Test.xml"));
-			var listConstraint = new SpeechRecognitionGrammarFileConstraint(storageFile, "ExitEnter");
+			var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Speech/SRGS/SRGS_Main.xml"));
+			var fileConstraint = new SpeechRecognitionGrammarFileConstraint(storageFile, "ExitEnter");
 
 
-			_speechRecognizer.Constraints.Add(listConstraint);
+			_speechRecognizer.Constraints.Add(fileConstraint);
 			await _speechRecognizer.CompileConstraintsAsync();
+
 			_speechRecognizer.ContinuousRecognitionSession.Completed += ContinuousRecognitionSession_Completed;
 			_speechRecognizer.ContinuousRecognitionSession.ResultGenerated += ContinuousRecognitionSession_ResultGenerated;
 
 			isListening = true;
+			Debug.WriteLine("Speech Recognizer intialization completed");
 
+		}
+
+		public async void StartSpeechRecognition()
+		{
+			await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
 		}
 
 		/// <summary>
@@ -88,6 +96,7 @@ namespace Ouay_HackZurich.Speech
 		/// <param name="args"></param>
 		private async void ContinuousRecognitionSession_Completed(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionCompletedEventArgs args)
 		{
+			Debug.WriteLine("Speech recognition completed");
 			if (_speechRecognizer.State == SpeechRecognizerState.Idle)
 			{
 				await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
@@ -103,15 +112,45 @@ namespace Ouay_HackZurich.Speech
 
 		private void ContinuousRecognitionSession_ResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
 		{
+			Debug.WriteLine("Speech recognition result generated.");
 			if (args.Result.Confidence == SpeechRecognitionConfidence.Medium || args.Result.Confidence == SpeechRecognitionConfidence.High)
 			{
 				Debug.WriteLine("Heard: " + args.Result.Text);
 			}
 			else
 			{
-				Debug.WriteLine("I didn't get that. I heard: "+ args.Result.Text);
+				Debug.WriteLine("I didn't get that, but I  did hear: "+ args.Result.Text);
 			}
+			HandleSpeech(args);
 		}
 
+		/// <summary>
+		/// Handle any good Speech input
+		/// </summary>
+		/// <param name="args">data from the speech recognition</param>
+		private void HandleSpeech(SpeechContinuousRecognitionResultGeneratedEventArgs args)
+		{
+			
+			string actionCase = args.Result.SemanticInterpretation.Properties["case"][0];
+
+			Debug.WriteLine("Detected case: " + actionCase);
+
+			if (actionCase == "exit")
+			{
+				string hours = args.Result.SemanticInterpretation.Properties["hours"][0];
+				Debug.WriteLine("Time out of home: " + hours + " hours.");
+
+				// TODO: set timer 
+
+				// TODO: make answer
+			}
+			else if (actionCase == "enter")
+			{
+				// TODO: notify database about the arrival.
+				// TODO: Check if arrival time is normal.
+
+				// TODO: make answer	
+			}
+		}
 	}
 }
