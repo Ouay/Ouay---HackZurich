@@ -87,7 +87,7 @@ namespace Ouay_HackZurich.GPIO
 		/*initialise GPIO pins*/
 		public void InitGPIO()
 		{
-			var gpio = GpioController.GetDefault();
+			gpio = GpioController.GetDefault();
 			if (gpio == null)
 			{
 				pinPIR = null;
