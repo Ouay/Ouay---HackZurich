@@ -15,6 +15,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Ouay_HackZurich.Speech;
 using Ouay_HackZurich.GPIO;
+using System.Threading.Tasks;
+using Ouay_HackZurich.Timer;
+using Ouay_HackZurich.BlueMix;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -29,6 +32,8 @@ namespace Ouay_HackZurich
 		/* speech recognizer specific to Ouay */
 		Ouay_SpeechRecognition SR;
 		Ouay_SpeechSynthesis SS;
+
+		/* GPIO hardware */
 		OuayGPIO gpio;
 
         public MainPage()
@@ -37,10 +42,8 @@ namespace Ouay_HackZurich
 			SS = new Ouay_SpeechSynthesis(this.media);
 			SS.Talk("The speech Synthesiser has finished setup.");
 			SR = new Ouay_SpeechRecognition();
-			SR.setupSpeechRecognition();
 			SR.OnEnterResult += new SpeechRecognitionEventHandler(enterEvent);
 			SR.OnExitResult += new SpeechRecognitionEventHandler(exitEvent);
-			SS.Talk("Speech recognition has finished setting up.");
 
 			//gpio = new OuayGPIO(); // Beware of null exceptions
 			//gpio.MotionDetected += motionDetected();
@@ -54,21 +57,24 @@ namespace Ouay_HackZurich
 		private void exitEvent(object source, SREventArgs e)
 		{
 			// TODO: set timer 
+			TimerOutFor.setupTimer(e.GetInfo(), HandleDelayAlert );
 
 			// TODO: make answer
 
-			throw new NotImplementedException();
 		}
 
-		private void enterEvent(object source, SREventArgs e)
+		private void HandleDelayAlert(object sender, object e)
+		{
+			BlueMixCom.Alert("Late Alert");
+		}
+
+		private async void enterEvent(object source, SREventArgs e)
 		{
 
 			// TODO: notify database about the arrival.
-			// TODO: Check if arrival time is normal.
+			await BlueMixCom.SendEntrance(DateTime.Now);
 
 			// TODO: make answer
-
-			throw new NotImplementedException();
 		}
 	}
 }

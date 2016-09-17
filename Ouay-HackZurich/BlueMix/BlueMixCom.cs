@@ -78,13 +78,13 @@ namespace Ouay_HackZurich.BlueMix
 			}
 		}
 
-		private async static void Alert()
+		public async static void Alert(string detail)
 		{
 			try
 			{
 				var httpClient = new HttpClient();
 				string url = UrlNotif;
-				url += UrlWhat + "what";
+				url += UrlWhat + detail;
 				await httpClient.GetStringAsync(new Uri(url));
 				Debug.WriteLine("Set new entrance to notification Server");
 			}
