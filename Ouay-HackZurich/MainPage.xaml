@@ -15,103 +15,73 @@
 	<Page.DataContext>
 		<Verif:MainPageViewModel />
 	</Page.DataContext>
-	<Grid
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    Margin="20">
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20">
 		<Grid.RowDefinitions>
 			<RowDefinition />
-			<RowDefinition
-        Height="Auto" />
-			<RowDefinition
-        Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<ProgressBar
-      Grid.Row="2"
-      Foreground="Azure"
-      IsIndeterminate="True"
-      Margin="4"
-      Visibility="{Binding IsBusy,Converter={StaticResource boolConverter}}"
-      HorizontalAlignment="Stretch"
-      VerticalAlignment="Top" />
-		<ListView
-      Header="Verification Profiles"
-      ItemsSource="{Binding VerificationProfiles}"
-      SelectionMode="Single"
-      SelectedItem="{Binding SelectedVerificationProfile,Mode=TwoWay}">
+		<ProgressBar Grid.Row="2" Foreground="Azure" IsIndeterminate="True" Margin="4" Visibility="{Binding IsBusy,Converter={StaticResource boolConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+		
+		<ListView Header="Verification Profiles" ItemsSource="{Binding VerificationProfiles}" SelectionMode="Single" SelectedItem="{Binding SelectedVerificationProfile,Mode=TwoWay}">
 			<ListView.ItemContainerStyle>
-				<Style
-          TargetType="ListViewItem">
-					<Setter
-            Property="HorizontalContentAlignment"
-            Value="Stretch" />
+				<Style TargetType="ListViewItem">
+					<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 				</Style>
 			</ListView.ItemContainerStyle>
 			<ListView.ItemTemplate>
 				<DataTemplate>
-					<Grid
-            Margin="0,4,0,0">
+					<Grid Margin="0,4,0,0">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="Auto"/>
 						</Grid.ColumnDefinitions>
 						<Grid.RowDefinitions>
-							<RowDefinition
-                Height="Auto" />
-							<RowDefinition
-                Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
-						<TextBox
-              Header="User Profile Id"
-              IsReadOnly="True"
-              Text="{Binding Profile.VerificationProfileId}" />
-						<TextBlock
-              Grid.Row="1">
-              <Run
-                Text="Enrolled count: "></Run>
-              <Run
-                Text="{Binding Profile.EnrollmentsCount}" />
-              <Run
-                Text="Remaining count: "></Run>
-              <Run
-                Text="{Binding Profile.RemainingEnrollmentsCount}" />
-                        <Run
-                Text="Status: "></Run>
-              <Run
-                Text="{Binding Profile.EnrollmentStatus}" />
+						<TextBox Header="User Profile Id" IsReadOnly="True" Text="{Binding Profile.VerificationProfileId}" />
+						<TextBlock Grid.Row="1">
+							<Run Text="Enrolled count: "></Run>
+							<Run Text="{Binding Profile.EnrollmentsCount}" />
+							<Run Text="Remaining count: "></Run>
+							<Run Text="{Binding Profile.RemainingEnrollmentsCount}" />
+							<Run Text="Status: "></Run>
+							<Run Text="{Binding Profile.EnrollmentStatus}" />
 						</TextBlock>
 						<Button
-              Margin="4,0,4,0"
-              Grid.Column="1"
-              VerticalAlignment="Bottom"
-              Content="Enrol"
-              Command="{Binding EnrolCommand}" />
+							Margin="4,0,4,0"
+							Grid.Column="1"
+							VerticalAlignment="Bottom"
+							Content="Enrol"
+							Command="{Binding EnrolCommand}" />
 						<Button
-              Margin="4,0,4,0"
-              Grid.Column="2"
-              VerticalAlignment="Bottom"
-              Content="Verify"
-              Command="{Binding VerifyCommand}" />
+							Margin="4,0,4,0"
+							Grid.Column="2"
+							VerticalAlignment="Bottom"
+							Content="Verify"
+							Command="{Binding VerifyCommand}" />
 					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>
 		<StackPanel
-      Grid.Row="2"
-      Orientation="Horizontal"
-      HorizontalAlignment="Right">
+		  Grid.Row="2"
+		  Orientation="Horizontal"
+		  HorizontalAlignment="Right">
 			<Button
-        Margin="8"
-        Content="Refresh Profile List"
-        Command="{Binding GetVerificationProfilesCommand}" />
+				Margin="8"
+				Content="Refresh Profile List"
+				Command="{Binding GetVerificationProfilesCommand}" />
 			<Button
-        Margin="8"
-        Content="Add New Profile"
-        Command="{Binding AddNewProfileCommand}" />
+				Margin="8"
+				Content="Add New Profile"
+				Command="{Binding AddNewProfileCommand}" />
 			<Button
-        Margin="8"
-        Content="Remove Profile"
-        Command="{Binding RemoveProfileCommand}" />
+				Margin="8"
+				Content="Remove Profile"
+				Command="{Binding RemoveProfileCommand}" />
 		</StackPanel>
 	</Grid>
 </Page>

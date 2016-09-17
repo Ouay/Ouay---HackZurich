@@ -13,33 +13,27 @@ namespace Ouay_HackZurich.Verification
 		{
 			this.oxfordRestClient = oxfordRestClient;
 
-			this.enrolCommand = new SimpleCommand(
-			  this.OnEnrolCommand, false);
+			this.enrolCommand = new SimpleCommand(this.OnEnrolCommand, false);
 
-			this.verifyCommand = new SimpleCommand(
-			  this.OnVerifyCommand, false);
+			this.verifyCommand = new SimpleCommand(this.OnVerifyCommand, false);
 		}
+
 		public VerificationProfile Profile
 		{
-			get
-			{
-				return (this.profile);
-			}
-			set
-			{
-				base.SetProperty(ref this.profile, value);
-				this.EnableEnrolCommand();
-				this.EnableVerifyCommand();
-			}
+			get { return (this.profile); }
+			set { base.SetProperty(ref this.profile, value); this.EnableEnrolCommand(); this.EnableVerifyCommand(); }
 		}
+
 		void EnableEnrolCommand()
 		{
 			this.enrolCommand.Enable(this.profile.EnrollmentsCount < 3);
 		}
+
 		void EnableVerifyCommand()
 		{
 			this.verifyCommand.Enable(this.profile.EnrollmentsCount >= 3);
 		}
+
 		async Task OnVerifyOrEnrolCommandAsync(Func<IInputStream, MessageDialog, Task> innerAction)
 		{
 			var phrase = await VerificationPhraseList.GetVerificationPhraseForProfileAsync(
@@ -83,6 +77,7 @@ namespace Ouay_HackZurich.Verification
 				}
 			}
 		}
+
 		async void OnEnrolCommand()
 		{
 			await this.OnVerifyOrEnrolCommandAsync(
@@ -110,6 +105,7 @@ namespace Ouay_HackZurich.Verification
 			  }
 			);
 		}
+
 		async void OnVerifyCommand()
 		{
 			await this.OnVerifyOrEnrolCommandAsync(
@@ -130,25 +126,17 @@ namespace Ouay_HackZurich.Verification
 			  }
 			);
 		}
+
 		async Task ShowErrorAsync(string error)
 		{
 			var dialog = new MessageDialog(error, "failed");
 			await dialog.ShowAsync();
 		}
-		public ICommand EnrolCommand
-		{
-			get
-			{
-				return (this.enrolCommand);
-			}
-		}
-		public ICommand VerifyCommand
-		{
-			get
-			{
-				return (this.verifyCommand);
-			}
-		}
+
+		public ICommand EnrolCommand { get { return (this.enrolCommand); } }
+
+		public ICommand VerifyCommand { get { return (this.verifyCommand); } }
+
 		OxfordSpeakerIdRestClient oxfordRestClient;
 		VerificationProfile profile;
 		SimpleCommand enrolCommand;

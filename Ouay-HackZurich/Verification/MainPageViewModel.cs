@@ -13,40 +13,27 @@ namespace Ouay_HackZurich.Verification
 		{
 			this.verificationProfiles = new ObservableCollection<VerificationProfileViewModel>();
 
-			this.getVerificationProfilesCommand =
-			  new SimpleCommand(this.OnGetVerificationProfilesCommand);
+			this.getVerificationProfilesCommand = new SimpleCommand(this.OnGetVerificationProfilesCommand);
 
-			this.addNewProfileCommand =
-			  new SimpleCommand(this.OnAddNewProfileCommand);
+			this.addNewProfileCommand = new SimpleCommand(this.OnAddNewProfileCommand);
 
-			this.removeProfileCommand =
-			  new SimpleCommand(this.OnRemoveProfileCommand, false);
+			this.removeProfileCommand = new SimpleCommand(this.OnRemoveProfileCommand, false);
 		}
-		public ICommand RemoveProfileCommand
-		{
-			get
-			{
-				return (this.removeProfileCommand);
-			}
-		}
+
+		public ICommand RemoveProfileCommand { get { return (this.removeProfileCommand); } }
+
 		public VerificationProfileViewModel SelectedVerificationProfile
 		{
-			get
-			{
-				return (this.selectedVerificationProfile);
-			}
-			set
-			{
-				base.SetProperty(ref this.selectedVerificationProfile, value);
-
-				this.EnableRemoveCommand();
-			}
+			get { return (this.selectedVerificationProfile); }
+			set { base.SetProperty(ref this.selectedVerificationProfile, value); this.EnableRemoveCommand(); }
 		}
+
 		void EnableRemoveCommand()
 		{
 			this.removeProfileCommand.Enable(
 			  this.SelectedVerificationProfile != null);
 		}
+
 		async Task SetBusyAndMakeOxfordRestCall(Func<Task> call)
 		{
 			this.IsBusy = true;
@@ -64,6 +51,7 @@ namespace Ouay_HackZurich.Verification
 				this.IsBusy = false;
 			}
 		}
+
 		async void OnRemoveProfileCommand()
 		{
 			await this.SetBusyAndMakeOxfordRestCall(async () =>
@@ -74,6 +62,7 @@ namespace Ouay_HackZurich.Verification
 				await this.OnGetVerificationProfilesAsync();
 			});
 		}
+
 		public ICommand AddNewProfileCommand
 		{
 			get
@@ -81,6 +70,7 @@ namespace Ouay_HackZurich.Verification
 				return (this.addNewProfileCommand);
 			}
 		}
+
 		public bool IsBusy
 		{
 			get
@@ -92,6 +82,7 @@ namespace Ouay_HackZurich.Verification
 				base.SetProperty(ref this.isBusy, value);
 			}
 		}
+
 		async void OnAddNewProfileCommand()
 		{
 			await this.SetBusyAndMakeOxfordRestCall(
@@ -102,6 +93,7 @@ namespace Ouay_HackZurich.Verification
 			  }
 			);
 		}
+
 		async void OnGetVerificationProfilesCommand()
 		{
 			await this.SetBusyAndMakeOxfordRestCall(
@@ -111,6 +103,7 @@ namespace Ouay_HackZurich.Verification
 			  }
 			);
 		}
+
 		async Task OnGetVerificationProfilesAsync()
 		{
 			this.VerificationProfiles.Clear();
@@ -127,6 +120,7 @@ namespace Ouay_HackZurich.Verification
 				);
 			}
 		}
+
 		public ICommand GetVerificationProfilesCommand
 		{
 			get
@@ -134,6 +128,7 @@ namespace Ouay_HackZurich.Verification
 				return (this.getVerificationProfilesCommand);
 			}
 		}
+
 		public ObservableCollection<VerificationProfileViewModel> VerificationProfiles
 		{
 			get
@@ -145,6 +140,7 @@ namespace Ouay_HackZurich.Verification
 				base.SetProperty(ref this.verificationProfiles, value);
 			}
 		}
+
 		OxfordSpeakerIdRestClient OxfordRestClient
 		{
 			get
@@ -156,12 +152,14 @@ namespace Ouay_HackZurich.Verification
 				return (this.oxfordSpeakerIdRestClient);
 			}
 		}
+
 		// lazy putting this here in a view model.
 		async Task ShowErrorAsync(string error)
 		{
 			var dialog = new MessageDialog(error, "Woops!");
 			await dialog.ShowAsync();
 		}
+
 		bool isBusy;
 
 		// lazy, should put these in a dictionary and bind them from there.

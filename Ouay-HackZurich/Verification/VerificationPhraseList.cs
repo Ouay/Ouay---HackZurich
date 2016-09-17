@@ -19,6 +19,7 @@ namespace Ouay_HackZurich.Verification
 			var bits = id.ToByteArray();
 			var sum = bits.Sum(b => (int)b);
 			var entry = sum % phrases.Length;
+			/*Change to get different phrases*/
 			return (phrases[entry]);
 		}
 		static OxfordSpeakerIdRestClient restClient;
