@@ -63,7 +63,7 @@ namespace Ouay_HackZurich.BlueMix
 						double total = now.Hour * 60 + now.Minute;
 						double totalDay = item.MeanHour * 60 + item.MeanMin;
 						if (total > totalDay + item.Std || total < totalDay - item.Std)
-							Alert();
+							Alert(string.Empty);
 						else
 							return true;
 						return false;
