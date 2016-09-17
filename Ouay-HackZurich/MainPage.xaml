@@ -8,86 +8,53 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-	<Page.Resources>
-		<Verif:BooleanToVisibilityConverter
-			x:Name="boolConverter" />
-	</Page.Resources>
-	<Page.DataContext>
-		<Verif:MainPageViewModel />
-	</Page.DataContext>
-	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20">
-		<Grid.RowDefinitions>
-			<RowDefinition />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
-		<ProgressBar Grid.Row="2" Foreground="Azure" IsIndeterminate="True" Margin="4" Visibility="{Binding IsBusy,Converter={StaticResource boolConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+	<Grid
 
-		<StackPanel>
-			<ListView Header="Verification Profiles" ItemsSource="{Binding VerificationProfiles}" SelectionMode="Single" SelectedItem="{Binding SelectedVerificationProfile,Mode=TwoWay}">
-				<ListView.ItemContainerStyle>
-					<Style TargetType="ListViewItem">
-						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-					</Style>
-				</ListView.ItemContainerStyle>
-				<ListView.ItemTemplate>
-					<DataTemplate>
-						<Grid Margin="0,4,0,0">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition />
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="Auto"/>
-							</Grid.ColumnDefinitions>
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto" />
-								<RowDefinition Height="Auto" />
-							</Grid.RowDefinitions>
-							<TextBox Header="User Profile Id" IsReadOnly="True" Text="{Binding Profile.VerificationProfileId}" />
-							<TextBlock Grid.Row="1">
-								<Run Text="Enrolled count: "></Run>
-								<Run Text="{Binding Profile.EnrollmentsCoun}" />
-								<Run Text="Remaining count: "></Run>
-								<Run Text="{Binding Profile.RemainingEnrollmentsCount}" />
-								<Run Text="Status: "></Run>
-								<Run Text="{Binding Profile.EnrollmentStatus}" />
-							</TextBlock>
-							<Button
-							Margin="4,0,4,0"
-							Grid.Column="1"
-							VerticalAlignment="Bottom"
-							Content="Enrol"
-							Command="{Binding EnrolCommand}" />
-							<Button
-							Margin="4,0,4,0"
-							Grid.Column="2"
-							VerticalAlignment="Bottom"
-							Content="Verify"
-							Command="{Binding VerifyCommand}" />
-						</Grid>
-					</DataTemplate>
-				</ListView.ItemTemplate>
-			</ListView>
-		</StackPanel>
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+		<!-- Note - this isn't really a UI, it's just a test harness -->
+
 		<StackPanel
-		  Grid.Row="2"
-		  Orientation="Horizontal"
-		  HorizontalAlignment="Right">
-			<TextBlock Margin="10">
-				<Run Text="Do this : " />
-				<Run Text="{Binding Profile.Text}" />
-			</TextBlock>
+            Width="284"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+			<StackPanel.Resources>
+				<Style
+                    TargetType="Button">
+					<Setter
+                        Property="Margin"
+                        Value="4" />
+					<Setter
+                        Property="HorizontalAlignment"
+                        Value="Stretch" />
+				</Style>
+				<Style
+                    TargetType="TextBlock">
+					<Setter
+                        Property="Margin"
+                        Value="4" />
+					<Setter
+                        Property="HorizontalAlignment"
+                        Value="Stretch" />
+				</Style>
+			</StackPanel.Resources>
 			<Button
-				Margin="8"
-				Content="Refresh Profile List"
-				Command="{Binding GetVerificationProfilesCommand}" />
+                Content="Pick Random Phrase"
+                Click="OnGetRandomPhraseAsync" />
+			<TextBlock
+                x:Name="txtPhrase" />
 			<Button
-				Margin="8"
-				Content="Add New Profile"
-				Command="{Binding AddNewProfileCommand}" />
+                Content="Enroll"
+                Click="OnEnrollAsync" />
+			<TextBlock
+                x:Name="txtProfileId" />
 			<Button
-				Margin="8"
-				Content="Remove Profile"
-				Command="{Binding RemoveProfileCommand}" />
+                Content="Verify"
+                Click="OnVerifyAsync"/>
+			<Button
+                Content="Clear All Profiles"
+                Click="OnClearAllAsync" />
+			<TextBlock x:Name="textToSay" Text="" />
 		</StackPanel>
 	</Grid>
 </Page>
