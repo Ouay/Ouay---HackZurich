@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<grammar xml:lang="en-US" root="root"
+tag-format="semantics/1.0" sapi:alphabet="x-microsoft-ups"
+version="1.0" xmlns="http://www.w3.org/2001/06/grammar"
+xmlns:sapi="http://schemas.microsoft.com/Speech/2002/06/SRGSExtensions">
+
+  <!--This grammar should be able to recognize the following (examples) :
+      Ouay I will come back at 3 p.m
+      Ouay We come back at 12 a.m
+      Ouay I will come back in 2 hours -->
+
+  <rule id="root">
+      <item>
+        <token sapi:pron="W E I" >ouay</token>
+      </item>
+    <item>
+        <ruleref uri="#other"/>
+      </item>
+  </rule>
+
+  <rule id="other">
+      <item>
+        <ruleref special="GARBAGE" />
+      </item>
+    <one-of>
+      <item>
+        <ruleref uri="#comeback"/>
+        <tag>out.case="exit";</tag>
+        <tag>out.hours=rules.comeback;</tag>
+      </item>
+      <item>
+        <ruleref uri="#back"/>
+        <tag>out.case="enter";</tag>
+      </item>
+    </one-of>
+  </rule>
+
+  <rule id="comeback">
+   <one-of>
+    <item>
+     come back
+   </item>
+   <item>
+     be back
+   </item>
+   </one-of>
+    <item>
+     <ruleref special="GARBAGE" />
+   </item>
+    <item>
+     <ruleref uri="#timespan"/>
+      <tag>out=rules.latest();</tag>
+   </item>
+    <one-of>
+    <item>
+       hours  
+    </item>
+    <item>
+        hour
+    </item>
+   </one-of>
+  </rule>
+  
+  
+  <rule id="timespan">
+      <one-of>
+        <item> 
+          one
+          <tag>out="1";</tag>
+        </item>
+        <item> 
+          two  
+          <tag>out="2";</tag>
+       </item>
+        <item>
+          three   
+          <tag>out="3";</tag>
+        </item>
+        <item>
+          four
+          <tag>out="4";</tag>
+      </item>
+        <item>
+          five
+          <tag>out="5";</tag>
+      </item>
+        <item>
+          six
+          <tag>out="6";</tag>
+      </item>
+        <item>
+          seven
+          <tag>out="7";</tag>
+        </item>
+        <item>
+          eight
+          <tag>out="8";</tag>
+        </item>
+        <item>
+          nine
+          <tag>out="9";</tag>
+        </item>
+        <item>
+          ten
+          <tag>out="10";</tag>
+      </item>
+        <item>
+          eleven
+          <tag>out="11";</tag>
+      </item>
+        <item>
+          twelve
+          <tag>out="12";</tag>
+        </item>
+      </one-of>  
+  </rule>
+
+  <rule id="back"> 
+    <item>
+      back
+    </item> 
+  </rule>
+  
+  
+</grammar>
