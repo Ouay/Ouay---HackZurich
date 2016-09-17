@@ -157,7 +157,7 @@ namespace Ouay_HackZurich.Verification
 		async Task ShowErrorAsync(string error)
 		{
 			var dialog = new MessageDialog(error, "Woops!");
-			await dialog.ShowAsync();
+			//await dialog.ShowAsync();
 		}
 
 		bool isBusy;
