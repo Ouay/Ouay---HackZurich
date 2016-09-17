@@ -69,7 +69,7 @@ namespace Ouay_HackZurich.Speech
 
 			_speechRecognizer = new SpeechRecognizer(systemSpeechLanguage);
 
-			var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Speech/SRGS/SRGS_Test.xml"));
+			var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Speech/SRGS/SRGS_Dummy.xml"));
 			var fileConstraint = new SpeechRecognitionGrammarFileConstraint(storageFile, "ExitEnter");
 
 
