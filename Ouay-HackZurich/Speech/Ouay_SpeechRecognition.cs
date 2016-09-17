@@ -69,7 +69,7 @@ namespace Ouay_HackZurich.Speech
 
 			_speechRecognizer = new SpeechRecognizer(systemSpeechLanguage);
 
-			var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Speech/SRGS/SRGS_Dummy.xml"));
+			var storageFile = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Speech/SRGS/SRGS_Main.xml"));
 			var fileConstraint = new SpeechRecognitionGrammarFileConstraint(storageFile, "ExitEnter");
 
 
@@ -119,9 +119,38 @@ namespace Ouay_HackZurich.Speech
 			}
 			else
 			{
-				Debug.WriteLine("I didn't get that. I heard: "+ args.Result.Text);
+				Debug.WriteLine("I didn't get that, but I  did hear: "+ args.Result.Text);
 			}
+			HandleSpeech(args);
 		}
 
+		/// <summary>
+		/// Handle any good Speech input
+		/// </summary>
+		/// <param name="args">data from the speech recognition</param>
+		private void HandleSpeech(SpeechContinuousRecognitionResultGeneratedEventArgs args)
+		{
+			
+			string actionCase = args.Result.SemanticInterpretation.Properties["case"][0];
+
+			Debug.WriteLine("Detected case: " + actionCase);
+
+			if (actionCase == "exit")
+			{
+				string hours = args.Result.SemanticInterpretation.Properties["hours"][0];
+				Debug.WriteLine("Time out of home: " + hours + " hours.");
+
+				// TODO: set timer 
+
+				// TODO: make answer
+			}
+			else if (actionCase == "enter")
+			{
+				// TODO: notify database about the arrival.
+				// TODO: Check if arrival time is normal.
+
+				// TODO: make answer	
+			}
+		}
 	}
 }

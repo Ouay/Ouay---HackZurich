@@ -133,8 +133,9 @@
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Speech\SRGS\SRGS_Test.xml" />
-    <Content Include="Speech\SRGS\SRGS_basics.xml" />
+    <Content Include="Speech\SRGS\SRGS_Main.xml" />
     <Content Include="Speech\SRGS\SRGS_Dummy.xml" />
+    <Content Include="Speech\SRGS\SRGS_City.xml" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
