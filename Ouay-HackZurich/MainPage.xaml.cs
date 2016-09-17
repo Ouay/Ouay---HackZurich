@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Ouay_HackZurich.Speech;
+using Ouay_HackZurich;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -31,7 +31,13 @@ namespace Ouay_HackZurich
         public MainPage()
         {
             this.InitializeComponent();
-			SR = new Ouay_SpeechRecognition();
+			//SR = new Ouay_SpeechRecognition();
+			Setup();
         }
-    }
+
+		private async void Setup()
+		{
+			bool a = await BlueMix.BlueMixCom.SendEntrance(DateTime.Now);
+		}
+	}
 }

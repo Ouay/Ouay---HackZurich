@@ -15,6 +15,8 @@ namespace Ouay_HackZurich.BlueMix
 		protected static string UrlTime = @"time=";
 		protected static string UrlDay = @"&day=";
 		protected static string UrlResponse = @"https://ouay.mybluemix.net/poll";
+		protected static string UrlNotif = @"https://ouay.mybluemix.net/notify?";
+		protected static string UrlWhat = @"what=";
 
 		/// <summary>
 		/// Send a DateTime to BlueMix to store it
@@ -64,7 +66,7 @@ namespace Ouay_HackZurich.BlueMix
 							Alert();
 						else
 							return true;
-						break;
+						return false;
 					}
 				}
 				return true;
@@ -76,9 +78,20 @@ namespace Ouay_HackZurich.BlueMix
 			}
 		}
 
-		private static void Alert()
+		private async static void Alert()
 		{
-			int a = 0;
+			try
+			{
+				var httpClient = new HttpClient();
+				string url = UrlNotif;
+				url += UrlWhat + "what";
+				await httpClient.GetStringAsync(new Uri(url));
+				Debug.WriteLine("Set new entrance to notification Server");
+			}
+			catch
+			{
+				Debug.WriteLine("Cannot give entrance notification to server");
+			}
 		}
 
 		private static string ConvertDay(DayOfWeek dayOfWeek)
