@@ -18,6 +18,7 @@ using Ouay_HackZurich.GPIO;
 using System.Threading.Tasks;
 using Ouay_HackZurich.Timer;
 using Ouay_HackZurich.BlueMix;
+using Windows.UI.Core;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -30,15 +31,21 @@ namespace Ouay_HackZurich
     {
 
 		/* speech recognizer specific to Ouay */
-		Ouay_SpeechRecognition SR;
-		Ouay_SpeechSynthesis SS;
+		private Ouay_SpeechRecognition SR;
+		private Ouay_SpeechSynthesis SS;
 
 		/* GPIO hardware */
-		OuayGPIO gpio;
+		private OuayGPIO gpio;
 
-        public MainPage()
+		/* dispatcher */
+		 private CoreDispatcher dispatcher;
+
+		public MainPage()
         {
             this.InitializeComponent();
+
+			dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
+
 			SS = new Ouay_SpeechSynthesis(this.media);
 			SS.Talk("The speech Synthesiser has finished setup.");
 			SR = new Ouay_SpeechRecognition();
@@ -57,7 +64,7 @@ namespace Ouay_HackZurich
 		private async void exitEvent(object source, SREventArgs e)
 		{
 			// Set timer once the person goes out.
-			TimerOutFor.setupTimer(e.GetInfo(), HandleDelayAlert );
+			TimerOutFor.setupTimer(e.GetInfo(), HandleDelayAlert, dispatcher);
 
 			// Say goodbye to person
 			await SS.byeMessage();
@@ -75,7 +82,7 @@ namespace Ouay_HackZurich
 			await BlueMixCom.SendEntrance(DateTime.Now);
 
 			// Stop timer tracking time out of house
-			TimerOutFor.stopTimer();
+			TimerOutFor.stopTimer(dispatcher);
 
 			// Welcome the person home
 			await SS.WelcomeMessage();

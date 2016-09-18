@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 
 namespace Ouay_HackZurich.Timer
@@ -12,19 +13,25 @@ namespace Ouay_HackZurich.Timer
 		public static int Time { get; set; }
 		private static DispatcherTimer myTimer;
 
-		public static void setupTimer(int _time, EventHandler<object> mydelegate)
+		public async static void setupTimer(int _time, EventHandler<object> mydelegate, CoreDispatcher mainDispatcher)
 		{
-			Time = _time;
-			myTimer = new DispatcherTimer();
-			myTimer.Interval = new TimeSpan(Time, 0, 0);
-			myTimer.Tick += mydelegate;
-			myTimer.Start();
+			mainDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+			{
+				Time = _time;
+				myTimer = new DispatcherTimer();
+				myTimer.Interval = new TimeSpan(Time, 0, 0);
+				myTimer.Tick += mydelegate;
+				myTimer.Start();
+			});
 		}
 
-		public static void stopTimer()
+		public async static void stopTimer(CoreDispatcher mainDispatcher)
 		{
-			if(myTimer!=null)
-				myTimer.Stop();	
+			mainDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+			{
+				if (myTimer != null)
+					myTimer.Stop();
+			});
 		}
 	}
 }
