@@ -18,6 +18,7 @@ using Ouay_HackZurich.GPIO;
 using System.Threading.Tasks;
 using Ouay_HackZurich.Timer;
 using Ouay_HackZurich.BlueMix;
+using Windows.UI.Core;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -30,15 +31,21 @@ namespace Ouay_HackZurich
     {
 
 		/* speech recognizer specific to Ouay */
-		Ouay_SpeechRecognition SR;
-		Ouay_SpeechSynthesis SS;
+		private Ouay_SpeechRecognition SR;
+		private Ouay_SpeechSynthesis SS;
 
 		/* GPIO hardware */
-		OuayGPIO gpio;
+		private OuayGPIO gpio;
 
-        public MainPage()
+		/* dispatcher */
+		 private CoreDispatcher dispatcher;
+
+		public MainPage()
         {
             this.InitializeComponent();
+
+			dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
+
 			SS = new Ouay_SpeechSynthesis(this.media);
 			SS.Talk("The speech Synthesiser has finished setup.");
 			SR = new Ouay_SpeechRecognition();
@@ -46,35 +53,43 @@ namespace Ouay_HackZurich
 			SR.OnExitResult += new SpeechRecognitionEventHandler(exitEvent);
 
 			//gpio = new OuayGPIO(); // Beware of null exceptions
-			//gpio.MotionDetected += motionDetected();
+			//gpio.MotionDetected += motionDetected;
         }
 
-		private EventHandler motionDetected()
+		private void motionDetected(object sender, EventArgs e)
 		{
-			throw new NotImplementedException();
+			//TODO: do something here 
 		}
 
-		private void exitEvent(object source, SREventArgs e)
+		private async void exitEvent(object source, SREventArgs e)
 		{
-			// TODO: set timer 
-			TimerOutFor.setupTimer(e.GetInfo(), HandleDelayAlert );
+			// Set timer once the person goes out.
+			TimerOutFor.setupTimer(e.GetInfo(), HandleDelayAlert, dispatcher);
 
-			// TODO: make answer
-
+			// Say goodbye to person
+			SR.pauseSpeechRecognition();
+			await SS.byeMessage();
+			SR.resumeSpeechRecognition();
 		}
 
 		private void HandleDelayAlert(object sender, object e)
 		{
+			// Alert about a late arrival at home
 			BlueMixCom.Alert("Late Alert");
 		}
 
 		private async void enterEvent(object source, SREventArgs e)
 		{
-
-			// TODO: notify database about the arrival.
+			// Send entrance time to database to know if everything is ok
 			await BlueMixCom.SendEntrance(DateTime.Now);
 
-			// TODO: make answer
+			// Stop timer tracking time out of house
+			TimerOutFor.stopTimer(dispatcher);
+
+			// Welcome the person home
+			SR.pauseSpeechRecognition();
+			await SS.WelcomeMessage();
+			SR.resumeSpeechRecognition();
 		}
 	}
 }
