@@ -111,6 +111,26 @@ namespace Ouay_HackZurich.Speech
 		}
 
 		/// <summary>
+		/// Start continuous recognition session
+		/// </summary>
+		public async void resumeSpeechRecognition()
+		{
+			if (_speechRecognizer != null && _speechRecognizer.State == SpeechRecognizerState.Paused)
+				_speechRecognizer.ContinuousRecognitionSession.Resume();
+			else if (_speechRecognizer.State == SpeechRecognizerState.Idle)
+				await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
+		}
+
+		/// <summary>
+		/// Stop continuous recognition session and discard all pending results
+		/// </summary>
+		public async void pauseSpeechRecognition()
+		{
+			if(_speechRecognizer != null)
+				await _speechRecognizer.ContinuousRecognitionSession.PauseAsync();
+		}
+
+		/// <summary>
 		/// Restart continuous recognition session by itself when completed
 		/// </summary>
 		/// <param name="sender"></param>
@@ -120,7 +140,8 @@ namespace Ouay_HackZurich.Speech
 			Debug.WriteLine("Speech recognition completed");
 			if (_speechRecognizer.State == SpeechRecognizerState.Idle)
 			{
-				await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
+					await _speechRecognizer.ContinuousRecognitionSession.StartAsync();
+				
 				Debug.WriteLine("Starting speech recognition.");
 			}
 		}

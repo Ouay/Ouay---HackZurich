@@ -67,7 +67,9 @@ namespace Ouay_HackZurich
 			TimerOutFor.setupTimer(e.GetInfo(), HandleDelayAlert, dispatcher);
 
 			// Say goodbye to person
+			SR.pauseSpeechRecognition();
 			await SS.byeMessage();
+			SR.resumeSpeechRecognition();
 		}
 
 		private void HandleDelayAlert(object sender, object e)
@@ -85,7 +87,9 @@ namespace Ouay_HackZurich
 			TimerOutFor.stopTimer(dispatcher);
 
 			// Welcome the person home
+			SR.pauseSpeechRecognition();
 			await SS.WelcomeMessage();
+			SR.resumeSpeechRecognition();
 		}
 	}
 }

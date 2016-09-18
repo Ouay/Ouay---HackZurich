@@ -41,6 +41,7 @@ namespace Ouay_HackZurich.Speech
         string[] answers = { "Welcome back", "Hey, you", "good evening", "hello" };
         string[] byebye = { "Have a nice day", "See you later", "I will miss you", "bye bye" };
         int variable = 0, variable2 = 0;
+
         public async Task<bool?> WelcomeMessage()
         {
             Talk(answers[variable]);
