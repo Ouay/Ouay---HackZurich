@@ -55,7 +55,15 @@ namespace Ouay_HackZurich.Weather
 
 		}
 
-		public async static Task<Weather> GetCurrent(string town, string country, string language, string type)
+		/// <summary>
+		/// Get the curent weather for some parameter specification
+		/// </summary>
+		/// <param name="town">Zurich</param>
+		/// <param name="country">Switzerland</param>
+		/// <param name="language"></param>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		public async static Task<Weather> GetCurrent(string town = "Zürich", string country = "Switzerland", string language "en", string type = "metric")
 		{
 			ClientSettings.ApiUrl = "http://api.openweathermap.org/data/2.5";
 
@@ -78,6 +86,21 @@ namespace Ouay_HackZurich.Weather
 			};
 
 			return t;
+		}
+
+		public static bool isNormal(Weather Test)
+		{
+			double seuilMax = 0.0;
+			double seuilMin = 0.0;
+			double windMin = 0.0;
+
+			if (Test.TempMax > seuilMax)
+				return false;//Do smth
+			if (Test.TempMin < seuilMin)
+				return false;//Do smth
+			if (Test.WindSpeed > windMin)
+				return false;//Do smth
+			return true;
 		}
 	}
 }
