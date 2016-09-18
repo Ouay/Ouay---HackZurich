@@ -39,14 +39,17 @@ xmlns:sapi="http://schemas.microsoft.com/Speech/2002/06/SRGSExtensions">
   <rule id="comeback">
    <one-of>
     <item>
-     come
+     going
    </item>
    <item>
-     be
+     i'll be
+   </item>
+   <item>
+    i will be
    </item>
    </one-of>
     <item>
-      back
+      out
     </item>
     <item>
      <ruleref special="GARBAGE" />
