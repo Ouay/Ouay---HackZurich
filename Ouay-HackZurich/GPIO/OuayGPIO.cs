@@ -29,11 +29,10 @@ namespace Ouay_HackZurich.GPIO
 		public OuayGPIO()
 		{
 			InitGPIO();
-
-			pinButton.DebounceTimeout = TimeSpan.FromMilliseconds(50);
-			pinPIR.DebounceTimeout = TimeSpan.FromMinutes(1);
-			pinPIR.ValueChanged += PinPIR_ValueChanged;
-			pinButton.ValueChanged += PinButton_ValueChanged;
+			//pinButton.DebounceTimeout = TimeSpan.FromMilliseconds(50);
+			//pinPIR.DebounceTimeout = TimeSpan.FromMinutes(1);
+			//pinPIR.ValueChanged += PinPIR_ValueChanged;
+			//pinButton.ValueChanged += PinButton_ValueChanged;
 			
 		}
 
@@ -97,7 +96,7 @@ namespace Ouay_HackZurich.GPIO
 			pinLED = gpio.OpenPin(5);
 			pinRelay = gpio.OpenPin(21);
 
-			pinLED.Write(GpioPinValue.High); // when HIGH, led is off. make sure that when we start using the pin, it's off.
+			pinLED.Write(GpioPinValue.Low); // when HIGH, led is off. make sure that when we start using the pin, it's off.
 			pinRelay.Write(GpioPinValue.Low); // same idea but reversed
 
 			/* pins as output */
