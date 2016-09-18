@@ -40,6 +40,7 @@ namespace Ouay_HackZurich.Speech
 
         string[] answers = { "Welcome back", "Hey, you", "good evening", "hello" };
         string[] byebye = { "Have a nice day", "See you later", "I will miss you", "bye bye" };
+		string[] dangers = { "It's rainy today so don't forget your umbrella, byebye", "It's very hot today, don't foret to take a water bottle, have a nice day.", "It's freezing outside so watch out for black ice, see you later."};
 
 		public async Task<bool?> WelcomeMessage()
 		{
@@ -55,24 +56,9 @@ namespace Ouay_HackZurich.Speech
 
 		public async Task<bool?> byeMessage()
         {
-			switch (Weather.Weather.isNormal(await Weather.Weather.GetCurrent()))
-			{
-				case 1:
-					Talk("It's very hot today, don't forget your water bottle.");
-					break;
-
-				case 2:
-					Talk("It's very cold today, take it easy on the road.");
-					break;
-
-				case 3:
-					Talk("It's very windy today, pay attention to flying cats.");
-					break;
-
-				default:
-					Talk(byebye[Rand(answers.Length)]);
-					break;
-			}
+			Talk(dangers[Rand(dangers.Length)]);
+			//Talk(byebye[Rand(byebye.Length)]);
+					
 			return null;
         }
 	}

@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Ouay_HackZurich.Timer;
 using Ouay_HackZurich.BlueMix;
 using Windows.UI.Core;
+using Windows.Devices.Gpio;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -35,7 +36,7 @@ namespace Ouay_HackZurich
 		private Ouay_SpeechSynthesis SS;
 
 		/* GPIO hardware */
-		private OuayGPIO gpio;
+		private GpioController gpio;
 
 		/* dispatcher */
 		 private CoreDispatcher dispatcher;
@@ -51,6 +52,11 @@ namespace Ouay_HackZurich
 			SR = new Ouay_SpeechRecognition();
 			SR.OnEnterResult += new SpeechRecognitionEventHandler(enterEvent);
 			SR.OnExitResult += new SpeechRecognitionEventHandler(exitEvent);
+
+			//gpio = GpioController.GetDefault();
+			//GpioPin led = gpio.OpenPin(5);
+			//led.SetDriveMode(GpioPinDriveMode.Output);
+			//led.Write(GpioPinValue.Low);
 
 			//gpio = new OuayGPIO(); // Beware of null exceptions
 			//gpio.MotionDetected += motionDetected;
