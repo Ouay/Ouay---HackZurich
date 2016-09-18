@@ -45,7 +45,7 @@ namespace Ouay_HackZurich
 			SR.OnEnterResult += new SpeechRecognitionEventHandler(enterEvent);
 			SR.OnExitResult += new SpeechRecognitionEventHandler(exitEvent);
 
-			//gpio = new OuayGPIO(); // Beware of null exceptions
+			gpio = new OuayGPIO(); // Beware of null exceptions
 			//gpio.MotionDetected += motionDetected();
         }
 
