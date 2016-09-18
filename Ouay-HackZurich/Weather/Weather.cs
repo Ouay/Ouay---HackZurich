@@ -88,19 +88,19 @@ namespace Ouay_HackZurich.Weather
 			return t;
 		}
 
-		public static bool isNormal(Weather Test)
+		public static int isNormal(Weather Test)
 		{
-			double seuilMax = 0.0;
-			double seuilMin = 0.0;
+			double seuilMax = 30.0;
+			double seuilMin = -1.0;
 			double windMin = 0.0;
 
 			if (Test.TempMax > seuilMax)
-				return false;//Do smth
+				return 1;//Do smth
 			if (Test.TempMin < seuilMin)
-				return false;//Do smth
+				return 2;//Do smth
 			if (Test.WindSpeed > windMin)
-				return false;//Do smth
-			return true;
+				return 3;//Do smth
+			return 0;
 		}
 	}
 }

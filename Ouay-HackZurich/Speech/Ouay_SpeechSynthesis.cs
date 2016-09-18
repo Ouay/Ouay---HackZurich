@@ -40,21 +40,39 @@ namespace Ouay_HackZurich.Speech
 
         string[] answers = { "Welcome back", "Hey, you", "good evening", "hello" };
         string[] byebye = { "Have a nice day", "See you later", "I will miss you", "bye bye" };
-        int variable = 0, variable2 = 0;
 
-        public async Task<bool?> WelcomeMessage()
-        {
-            Talk(answers[variable]);
-            if (variable < 3) { variable++; }
-            else { variable = 0; }
+		public async Task<bool?> WelcomeMessage()
+		{
+			Talk(answers[Rand(answers.Length)]);
 			return null;
         }
 
-        public async Task<bool?> byeMessage()
+		private int Rand(int max)
+		{
+			Random r = new Random();
+			return r.Next(max);
+		}
+
+		public async Task<bool?> byeMessage()
         {
-            Talk(byebye[variable2]);
-            if (variable2 < 3) { variable2++; }
-            else { variable2 = 0; }
+			switch (Weather.Weather.isNormal(await Weather.Weather.GetCurrent()))
+			{
+				case 1:
+					Talk("It's very hot today, don't forget your water bottle.");
+					break;
+
+				case 2:
+					Talk("It's very cold today, take it easy on the road.");
+					break;
+
+				case 3:
+					Talk("It's very windy today, pay attention to flying cats.");
+					break;
+
+				default:
+					Talk(byebye[Rand(answers.Length)]);
+					break;
+			}
 			return null;
         }
 	}

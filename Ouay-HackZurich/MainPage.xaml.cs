@@ -69,6 +69,7 @@ namespace Ouay_HackZurich
 			// Say goodbye to person
 			SR.pauseSpeechRecognition();
 			await SS.byeMessage();
+			await Task.Delay(1000);
 			SR.resumeSpeechRecognition();
 		}
 
@@ -89,6 +90,7 @@ namespace Ouay_HackZurich
 			// Welcome the person home
 			SR.pauseSpeechRecognition();
 			await SS.WelcomeMessage();
+			await Task.Delay(1000);
 			SR.resumeSpeechRecognition();
 		}
 	}
