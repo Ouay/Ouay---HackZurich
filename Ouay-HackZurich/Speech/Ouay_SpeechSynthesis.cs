@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Media.SpeechSynthesis;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 
 namespace Ouay_HackZurich.Speech
@@ -19,20 +20,22 @@ namespace Ouay_HackZurich.Speech
 			this.ME = ME;
 		}
 
-		public async Task<bool> Talk(string message)
+		public async void Talk(string message)
 		{
-			try
-			{
-				var stream = await speechSynthesizer.SynthesizeTextToStreamAsync(message);
-				ME.SetSource(stream, stream.ContentType);
-				ME.Play();
-				return true;
-			}
-			catch(Exception ex)
-			{
-				ex.ToString();
-				return false;
-			}
+			await ME.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+			 {
+				 try
+				 {
+					 var stream = await speechSynthesizer.SynthesizeTextToStreamAsync(message);
+
+					 ME.SetSource(stream, stream.ContentType);
+					 ME.Play();
+				 }
+				 catch (Exception ex)
+				 {
+					 ex.ToString();
+				 }
+			 });
 		}
 
         string[] answers = { "Welcome back", "Hey, you", "good evening", "hello" };
@@ -40,7 +43,7 @@ namespace Ouay_HackZurich.Speech
         int variable = 0, variable2 = 0;
         public async Task<bool?> WelcomeMessage()
         {
-            await Talk(answers[variable]);
+            Talk(answers[variable]);
             if (variable < 3) { variable++; }
             else { variable = 0; }
 			return null;
@@ -48,7 +51,7 @@ namespace Ouay_HackZurich.Speech
 
         public async Task<bool?> byeMessage()
         {
-            await Talk(byebye[variable2]);
+            Talk(byebye[variable2]);
             if (variable2 < 3) { variable2++; }
             else { variable2 = 0; }
 			return null;
