@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ouay_HackZurich.Speech.Synthese;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace Ouay_HackZurich.Speech
 	{
 		private SpeechSynthesizer speechSynthesizer;
 		private MediaElement ME;
+        public Weather we = new Weather();
 
 		public Ouay_SpeechSynthesis(MediaElement ME)
 		{
@@ -28,6 +30,7 @@ namespace Ouay_HackZurich.Speech
 
         string[] answers = { "Welcome back", "Hey, you", "good evening", "hello" };
         string[] byebye = { "Have a nice day", "See you later", "I will miss you", "bye bye" };
+
         int variable = 0, variable2 = 0;
         public void WelcomeMessage()
         {
