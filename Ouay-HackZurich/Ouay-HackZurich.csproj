@@ -121,6 +121,7 @@
       <DependentUpon>SynthesisTalk.xaml</DependentUpon>
     </Compile>
     <Compile Include="Timer\TimerOutFor.cs" />
+    <Compile Include="Weather\Weather.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

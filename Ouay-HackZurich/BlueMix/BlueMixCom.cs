@@ -63,7 +63,7 @@ namespace Ouay_HackZurich.BlueMix
 						double total = now.Hour * 60 + now.Minute;
 						double totalDay = item.MeanHour * 60 + item.MeanMin;
 						if (total > totalDay + item.Std || total < totalDay - item.Std)
-							Alert();
+							Alert(string.Empty);
 						else
 							return true;
 						return false;
@@ -84,7 +84,7 @@ namespace Ouay_HackZurich.BlueMix
 			{
 				var httpClient = new HttpClient();
 				string url = UrlNotif;
-				url += UrlWhat + detail;
+				url += UrlWhat + GenRand();
 				await httpClient.GetStringAsync(new Uri(url));
 				Debug.WriteLine("Set new entrance to notification Server");
 			}
@@ -92,6 +92,12 @@ namespace Ouay_HackZurich.BlueMix
 			{
 				Debug.WriteLine("Cannot give entrance notification to server");
 			}
+		}
+
+		private static string GenRand()
+		{
+			Random rand = new Random();
+			return rand.Next(2000).ToString();
 		}
 
 		private static string ConvertDay(DayOfWeek dayOfWeek)
