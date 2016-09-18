@@ -63,7 +63,7 @@ namespace Ouay_HackZurich.Weather
 		/// <param name="language"></param>
 		/// <param name="type"></param>
 		/// <returns></returns>
-		public async static Task<Weather> GetCurrent(string town = "Zürich", string country = "Switzerland", string language "en", string type = "metric")
+		public async static Task<Weather> GetCurrent(string town = "Zürich", string country = "Switzerland", string language = "en", string type = "metric")
 		{
 			ClientSettings.ApiUrl = "http://api.openweathermap.org/data/2.5";
 
